@@ -3,1501 +3,464 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Стартовый раздел · Яндекс.Трекер для аналитиков</title>
+<title>Быстрый старт в Я.Трекере для аналитика</title>
 <style>
-/* ---------------------------------------------------------------
-   Токены
-   --------------------------------------------------------------- */
 :root {
-  color-scheme: light;
-
-  --paper:        #FBFCFD;
-  --surface:      #F1F4F6;
-  --surface-2:    #E7EDF0;
-  --ink:          #0F1C22;
-  --ink-2:        #2C3E47;
-  --muted:        #5A6E77;
-  --faint:        #8598A1;
-  --line:         #DCE4E8;
-  --line-strong:  #C2D0D7;
-
-  --accent:       #10596E;
-  --accent-deep:  #0A3E4E;
-  --accent-soft:  #E3EFF4;
-
-  --ok:           #3D7A5C;
-  --ok-soft:      #E6F1EB;
-  --warn:         #8A5D14;
-  --warn-soft:    #FAF1DE;
-
-  --radius:       6px;
-  --radius-lg:    10px;
-
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-  --sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --mono:  "SF Mono", "Cascadia Mono", ui-monospace, Consolas, "Liberation Mono", monospace;
-
-  --t-xs:   0.75rem;
-  --t-sm:   0.8125rem;
-  --t-md:   0.9375rem;
-  --t-base: 1.0625rem;
-  --t-lg:   1.1875rem;
-  --t-xl:   1.4375rem;
-  --t-2xl:  1.8125rem;
-
-  --sidebar-w: 272px;
-  --measure: 68ch;
+  --ink:      #1B1B1A;
+  --soft:     #5F6360;
+  --faint:    #9A9E9B;
+  --hair:     #DCDCDA;
+  --orange:   #E8862A;
+  --orange-d: #B9651A;
+  --orange-s: #FDF3E9;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* ---------------------------------------------------------------
-   Основа
-   --------------------------------------------------------------- */
-*, *::before, *::after { box-sizing: border-box; }
-
-html { -webkit-text-size-adjust: 100%; }
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--paper);
+  background: #fff;
   color: var(--ink);
   font-family: var(--sans);
-  font-size: var(--t-base);
-  line-height: 1.65;
+  font-size: 1.0625rem;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--accent); text-underline-offset: 0.2em; }
-a:hover { color: var(--accent-deep); }
-
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 3px;
-}
-
-button { font: inherit; color: inherit; }
-
-h1, h2, h3, h4 { text-wrap: balance; line-height: 1.25; margin: 0; }
-
-code, kbd, samp { font-family: var(--mono); }
-
-.skip {
-  position: absolute; left: -9999px; top: 0;
-  background: var(--ink); color: var(--paper);
-  padding: 0.6rem 1rem; z-index: 100; border-radius: 0 0 var(--radius) 0;
-}
-.skip:focus { left: 0; }
-
-.eyebrow {
-  font-family: var(--mono);
-  font-size: var(--t-xs);
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--faint);
-  margin: 0 0 0.9rem;
-}
-
-/* ---------------------------------------------------------------
-   Переключение видов
-   --------------------------------------------------------------- */
-#landing[hidden], #docs[hidden] { display: none; }
-
-@media (prefers-reduced-motion: no-preference) {
-  .view-enter { animation: rise 0.42s cubic-bezier(0.22, 0.9, 0.3, 1) both; }
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: none; }
-  }
-}
-
-/* ===============================================================
-   ЛЕНДИНГ
-   =============================================================== */
-.wrap {
-  width: min(100% - 3rem, 62rem);
+.sheet {
+  width: min(100% - 2.5rem, 720px);
   margin-inline: auto;
+  padding-block: clamp(3rem, 8vw, 5rem) 4.5rem;
 }
 
-.masthead {
-  border-bottom: 1px solid var(--line);
-  background: var(--paper);
-}
-.masthead__in {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem; padding-block: 1.05rem;
-}
-.wordmark {
-  display: inline-flex; align-items: baseline; gap: 0.55rem;
-  font-weight: 640; letter-spacing: -0.01em; color: var(--ink);
-  text-decoration: none; font-size: var(--t-md);
-  background: none; border: 0; padding: 0; cursor: pointer;
-}
-.wordmark__tag {
-  font-family: var(--mono); font-size: var(--t-xs);
-  color: var(--accent); background: var(--accent-soft);
-  padding: 0.15rem 0.42rem; border-radius: 4px; letter-spacing: 0.02em;
-  font-weight: 500;
-}
-.masthead__note { font-size: var(--t-sm); color: var(--muted); }
-
-/* --- Герой --- */
-.hero { padding-block: clamp(3.5rem, 9vw, 6rem) clamp(2.5rem, 6vw, 4rem); }
-.hero__grid {
-  display: grid; gap: clamp(2.5rem, 5vw, 4rem);
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  align-items: center;
-}
-@media (max-width: 860px) { .hero__grid { grid-template-columns: 1fr; } }
-
-.hero h1 {
-  font-family: var(--serif);
-  font-size: clamp(2.1rem, 5.2vw, 3.1rem);
+.page-title {
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
   font-weight: 600;
-  letter-spacing: -0.015em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.75rem;
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: clamp(1.35rem, 3.4vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.3;
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+  text-wrap: balance;
+  margin: 3rem 0 1.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hair);
+}
+.page-title + h2 { margin-top: 0; padding-top: 0; border-top: 0; }
+
+.num { font-size: 0.85em; font-weight: 700; color: var(--orange); }
+
+p { margin: 0 0 1.1rem; }
+p:last-child { margin-bottom: 0; }
+
+.soft { color: var(--soft); }
+.term { color: var(--orange-d); font-weight: 620; }
+
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--orange-d); }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+/* ——— призыв к действию ——— */
+.cta {
+  display: inline-block;
+  margin: 1.75rem 0 0;
+  padding: 0.35rem 1.1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--orange-s);
+  color: var(--orange-d);
+  font: inherit;
+  font-weight: 620;
+  line-height: 1.75;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cta:hover { background: #FBE9D6; }
+
+/* ——— замечание ——— */
+.note {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.5rem 0.75rem;
+  align-items: baseline;
+  margin: 1.75rem 0;
+}
+.note__mark { color: var(--orange); font-weight: 700; }
+.note__text { margin: 0; }
+
+/* ——— списки ——— */
+ul.plain { list-style: none; margin: 0 0 1.25rem; padding: 0; }
+ul.plain li {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+ul.plain li:last-child { margin-bottom: 0; }
+ul.plain li::before { content: "—"; color: var(--orange); }
+
+ol.plan { list-style: none; margin: 0; padding: 0; counter-reset: p; }
+ol.plan li {
+  counter-increment: p;
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
   margin-bottom: 1.1rem;
 }
-.hero__lede {
-  font-size: var(--t-lg); color: var(--ink-2);
-  max-width: 34rem; margin: 0 0 1.9rem;
+ol.plan li:last-child { margin-bottom: 0; }
+ol.plan li::before { content: counter(p) "."; font-weight: 400; color: var(--ink); }
+ol.plan b { display: block; font-weight: 400; }
+ol.plan b.strong { font-weight: 620; }
+ol.plan .desc {
+  display: block;
+  color: var(--soft);
+  font-size: 0.9875rem;
+  line-height: 1.6;
 }
-.hero__cta { display: flex; align-items: center; gap: 1.3rem; flex-wrap: wrap; }
+ol.plan a { display: block; }
+ol.plan a:hover b { color: var(--orange-d); }
 
-.btn {
-  display: inline-flex; align-items: center; gap: 0.55rem;
-  background: var(--accent); color: #fff;
-  border: 1px solid var(--accent);
-  padding: 0.72rem 1.5rem;
-  border-radius: var(--radius);
-  font-size: var(--t-md); font-weight: 560;
-  cursor: pointer; text-decoration: none;
-  transition: background 0.16s ease, border-color 0.16s ease;
-}
-.btn:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; }
-.btn__arrow { transition: transform 0.16s ease; }
-.btn:hover .btn__arrow { transform: translateX(3px); }
-@media (prefers-reduced-motion: reduce) {
-  .btn, .btn__arrow { transition: none; }
-}
-
-.linkish {
-  background: none; border: 0; padding: 0; cursor: pointer;
-  color: var(--accent); font-size: var(--t-md);
-  text-decoration: underline; text-underline-offset: 0.2em;
-  text-decoration-color: var(--line-strong);
-}
-.linkish:hover { color: var(--accent-deep); text-decoration-color: currentColor; }
-
-.hero__meta {
-  margin-top: 2rem; display: flex; gap: 2rem; flex-wrap: wrap;
-  font-size: var(--t-sm); color: var(--muted);
-}
-.hero__meta b { display: block; color: var(--ink); font-size: var(--t-base); font-weight: 620; }
-
-/* Чертёжная плашка справа в герое */
-.blueprint {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(var(--surface) 0 0) padding-box,
-    repeating-linear-gradient(0deg, transparent 0 23px, rgba(16,89,110,0.07) 23px 24px),
-    repeating-linear-gradient(90deg, transparent 0 23px, rgba(16,89,110,0.07) 23px 24px);
-  background-blend-mode: normal;
-  padding: 1.6rem;
-  position: relative;
-}
-.blueprint::before {
-  content: "";
-  position: absolute; inset: 0;
-  border-radius: var(--radius-lg);
-  background:
-    repeating-linear-gradient(0deg, transparent 0 23px, rgba(16,89,110,0.06) 23px 24px),
-    repeating-linear-gradient(90deg, transparent 0 23px, rgba(16,89,110,0.06) 23px 24px);
-  pointer-events: none;
-}
-.blueprint > * { position: relative; }
-.blueprint__label {
-  font-family: var(--mono); font-size: var(--t-xs);
-  text-transform: uppercase; letter-spacing: 0.08em;
-  color: var(--accent); margin-bottom: 1rem;
+.badge {
+  display: inline-block;
+  vertical-align: baseline;
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.55rem;
+  border-radius: 999px;
+  background: var(--orange-s);
+  color: var(--orange-d);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  white-space: nowrap;
 }
 
-/* --- Секции --- */
-.section { padding-block: clamp(2.8rem, 6vw, 4.2rem); border-top: 1px solid var(--line); }
-.section__head { max-width: 44rem; margin-bottom: 2.2rem; }
-.section__head h2 {
-  font-family: var(--serif);
-  font-size: clamp(1.55rem, 3.2vw, 2rem);
-  font-weight: 600; letter-spacing: -0.012em;
+/* ——— служебная навигация статьи ——— */
+.back {
+  display: inline-block;
+  margin-bottom: 1.75rem;
+  color: var(--soft);
+  font-size: 0.9875rem;
+}
+.back:hover { color: var(--orange-d); }
+
+.pager {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hair);
+  font-size: 0.9875rem;
+}
+.pager p { margin: 0 0 0.5rem; }
+.pager p:last-child { margin-bottom: 0; }
+.pager .lbl { color: var(--faint); }
+
+.meta { color: var(--soft); font-size: 0.9875rem; margin: 0 0 1.75rem; }
+
+/* ——— термины ——— */
+dl.terms { margin: 0 0 1.25rem; }
+dl.terms > div {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: 0.5rem;
+  align-items: baseline;
   margin-bottom: 0.75rem;
 }
-.section__head p { margin: 0; color: var(--muted); font-size: var(--t-md); }
+dl.terms > div::before { content: "—"; color: var(--orange); }
+dl.terms dt { display: inline; font-weight: 620; }
+dl.terms dd { display: inline; margin: 0; }
 
-.cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
-.card {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 1.4rem 1.35rem;
-  background: var(--paper);
-}
-.card h3 { font-size: var(--t-md); font-weight: 620; margin-bottom: 0.5rem; }
-.card p { margin: 0; color: var(--muted); font-size: var(--t-md); }
+/* ——— таблица: только волосяные линии строк ——— */
+.tbl { overflow-x: auto; margin: 0 0 1.5rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9875rem; line-height: 1.6; }
+th, td { text-align: left; padding: 0.6rem 1rem 0.6rem 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+th { font-weight: 620; color: var(--soft); }
+td:last-child, th:last-child { padding-right: 0; }
 
-/* Цель — список умений */
-.outcome { display: grid; gap: 1.6rem; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; }
-@media (max-width: 780px) { .outcome { grid-template-columns: 1fr; } }
-.outcome__claim {
-  font-family: var(--serif); font-size: var(--t-xl);
-  line-height: 1.42; color: var(--ink); margin: 0;
-}
-.skills { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.1rem; }
-.skills li {
-  display: grid; grid-template-columns: auto 1fr; gap: 0.75rem;
-  align-items: baseline;
-  padding: 0.7rem 0; border-bottom: 1px solid var(--line);
-  font-size: var(--t-md);
-}
-.skills li:first-child { border-top: 1px solid var(--line); }
-.skills .tick { color: var(--ok); font-weight: 700; }
-
-/* Путь пользователя */
-.journey {
-  display: grid; gap: 0;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  counter-reset: jstep;
-}
-.jstep {
-  counter-increment: jstep;
-  padding: 1.3rem 1.1rem 1.4rem;
-  border-left: 1px solid var(--line);
-  position: relative;
-}
-.jstep:first-child { border-left: 0; }
-.jstep::before {
-  content: counter(jstep);
-  display: grid; place-items: center;
-  width: 1.65rem; height: 1.65rem;
-  border-radius: 50%;
-  background: var(--accent-soft); color: var(--accent);
-  font-family: var(--mono); font-size: var(--t-xs); font-weight: 600;
-  margin-bottom: 0.85rem;
-}
-.jstep h3 { font-size: var(--t-md); font-weight: 620; margin-bottom: 0.35rem; }
-.jstep p { margin: 0; font-size: var(--t-sm); color: var(--muted); line-height: 1.55; }
-.jstep__where {
-  display: inline-block; margin-top: 0.7rem;
-  font-family: var(--mono); font-size: var(--t-xs);
-  color: var(--faint);
-}
-@media (max-width: 900px) {
-  .journey { grid-template-columns: 1fr; }
-  .jstep { border-left: 0; border-top: 1px solid var(--line); padding-inline: 0; }
-  .jstep:first-child { border-top: 0; padding-top: 0; }
-}
-
-/* Границы раздела */
-.scope { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
-.scope__col h3 {
-  font-size: var(--t-sm); text-transform: uppercase; letter-spacing: 0.07em;
-  font-family: var(--mono); font-weight: 600; margin-bottom: 0.9rem;
-}
-.scope__col--in h3 { color: var(--ok); }
-.scope__col--out h3 { color: var(--faint); }
-.scope ul { margin: 0; padding-left: 1.15rem; color: var(--muted); font-size: var(--t-md); }
-.scope li { margin-bottom: 0.4rem; }
-
-/* Финальный призыв */
-.finale {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  padding: clamp(1.8rem, 4vw, 2.6rem);
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1.5rem; flex-wrap: wrap;
-}
-.finale h2 { font-family: var(--serif); font-size: var(--t-xl); font-weight: 600; margin-bottom: 0.4rem; }
-.finale p { margin: 0; color: var(--muted); font-size: var(--t-md); }
-
-.footer {
-  border-top: 1px solid var(--line);
-  padding-block: 2rem 3rem;
-  font-size: var(--t-sm); color: var(--faint);
-}
-.footer p { margin: 0 0 0.4rem; }
-
-/* ===============================================================
-   ДОКУМЕНТАЦИЯ
-   =============================================================== */
-.docbar {
-  position: sticky; top: 0; z-index: 30;
-  background: rgba(251, 252, 253, 0.92);
-  backdrop-filter: saturate(180%) blur(8px);
-  border-bottom: 1px solid var(--line);
-}
-.docbar__in {
-  display: flex; align-items: center; gap: 1rem;
-  padding: 0.75rem clamp(1rem, 3vw, 1.75rem);
-}
-.crumbs {
-  font-size: var(--t-sm); color: var(--muted);
-  display: flex; align-items: center; gap: 0.5rem; min-width: 0;
-}
-.crumbs span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.crumbs .sep { color: var(--line-strong); }
-
-.burger {
-  display: none;
-  background: var(--paper); border: 1px solid var(--line);
-  border-radius: var(--radius); padding: 0.4rem 0.7rem;
-  cursor: pointer; font-size: var(--t-sm);
-}
-
-.doclayout {
-  display: grid;
-  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
-  align-items: start;
-}
-
-/* --- Боковая навигация --- */
-.sidebar {
-  position: sticky; top: 3.35rem;
-  height: calc(100vh - 3.35rem);
-  overflow-y: auto;
-  border-right: 1px solid var(--line);
-  padding: 1.75rem 1.1rem 3rem 1.5rem;
-  background: var(--paper);
-}
-.sidebar__title {
-  font-family: var(--mono); font-size: var(--t-xs);
-  text-transform: uppercase; letter-spacing: 0.09em;
-  color: var(--faint); margin: 0 0 1rem;
-}
-.nav { list-style: none; margin: 0; padding: 0; counter-reset: nav; }
-.nav li { counter-increment: nav; }
-.nav button {
-  width: 100%; text-align: left;
-  display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.15rem 0.55rem;
-  background: none; border: 0; cursor: pointer;
-  padding: 0.55rem 0.6rem; border-radius: var(--radius);
-  font-size: var(--t-md); line-height: 1.4; color: var(--ink-2);
-}
-.nav button::before {
-  content: counter(nav);
-  font-family: var(--mono); font-size: var(--t-xs);
-  color: var(--faint); padding-top: 0.18rem;
-}
-.nav button:hover { background: var(--surface); color: var(--ink); }
-.nav button[aria-current="page"] {
-  background: var(--accent-soft); color: var(--accent-deep); font-weight: 560;
-}
-.nav button[aria-current="page"]::before { color: var(--accent); }
-.nav .state {
-  grid-column: 2;
-  font-family: var(--mono); font-size: 0.6875rem;
-  letter-spacing: 0.04em; color: var(--faint);
-}
-.nav button[aria-current="page"] .state { color: var(--accent); }
-.nav .state--ready { color: var(--ok); }
-
-.sidebar__foot {
-  margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
-  font-size: var(--t-sm); color: var(--muted);
-}
-
-/* --- Область статьи --- */
-.article-area { padding: clamp(1.75rem, 4vw, 3rem) clamp(1.1rem, 4vw, 3.5rem) 5rem; min-width: 0; }
-.article-inner { display: grid; grid-template-columns: minmax(0, var(--measure)) minmax(0, 15rem); gap: 3rem; }
-@media (max-width: 1180px) { .article-inner { grid-template-columns: minmax(0, 1fr); } }
-
-article { min-width: 0; }
-article h1 {
-  font-size: clamp(1.85rem, 4vw, 2.35rem);
-  font-weight: 640; letter-spacing: -0.015em; margin-bottom: 0.85rem;
-}
-article h2 {
-  font-size: var(--t-xl); font-weight: 620; letter-spacing: -0.01em;
-  margin: 3rem 0 0.9rem; padding-top: 0.4rem;
-  scroll-margin-top: 4.5rem;
-}
-article h3 {
-  font-size: var(--t-lg); font-weight: 620;
-  margin: 2rem 0 0.6rem; scroll-margin-top: 4.5rem;
-}
-article p { margin: 0 0 1.05rem; }
-article ul, article ol { margin: 0 0 1.15rem; padding-left: 1.35rem; }
-article li { margin-bottom: 0.45rem; }
-article li::marker { color: var(--faint); }
-
-.lede { font-size: var(--t-lg); color: var(--ink-2); }
-
-.meta-row {
-  display: flex; gap: 1.5rem; flex-wrap: wrap;
-  font-size: var(--t-sm); color: var(--muted);
-  padding: 0.85rem 0; margin-bottom: 2rem;
-  border-block: 1px solid var(--line);
-}
-.meta-row b { font-weight: 600; color: var(--ink-2); }
-
-/* Врезки */
-.callout {
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--line-strong);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  background: var(--surface);
-  padding: 1rem 1.2rem;
-  margin: 0 0 1.5rem;
-  font-size: var(--t-md);
-}
-.callout > :last-child { margin-bottom: 0; }
-.callout__label {
-  display: block; font-family: var(--mono); font-size: var(--t-xs);
-  text-transform: uppercase; letter-spacing: 0.08em;
-  color: var(--muted); margin-bottom: 0.4rem;
-}
-.callout--warn { border-left-color: var(--warn); background: var(--warn-soft); border-color: #EFE0BE; }
-.callout--warn .callout__label { color: var(--warn); }
-.callout--tip { border-left-color: var(--accent); background: var(--accent-soft); border-color: #CFE3EA; }
-.callout--tip .callout__label { color: var(--accent); }
-
-/* Глоссарий */
-.glossary { margin: 0 0 1.6rem; display: grid; gap: 0; }
-.glossary div {
-  display: grid; grid-template-columns: 10rem 1fr; gap: 1rem;
-  padding: 0.65rem 0; border-bottom: 1px solid var(--line);
-  font-size: var(--t-md);
-}
-.glossary div:first-child { border-top: 1px solid var(--line); }
-.glossary dt { font-weight: 620; }
-.glossary dd { margin: 0; color: var(--muted); }
-@media (max-width: 600px) {
-  .glossary div { grid-template-columns: 1fr; gap: 0.15rem; }
-}
-
-/* Таблицы */
-.table-scroll { overflow-x: auto; margin: 0 0 1.6rem; border: 1px solid var(--line); border-radius: var(--radius); }
-table { border-collapse: collapse; width: 100%; font-size: var(--t-md); }
-th, td { text-align: left; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-thead th {
-  background: var(--surface); font-size: var(--t-sm); font-weight: 620;
-  color: var(--ink-2); white-space: nowrap;
-}
-tbody tr:last-child td { border-bottom: 0; }
-td code { font-size: 0.9em; }
-
-/* Шаги */
-.step { margin-top: 2.6rem; }
-.step__num {
-  font-family: var(--mono); font-size: var(--t-xs);
-  letter-spacing: 0.09em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 0.3rem;
-}
-.step h2 { margin-top: 0; }
-
-/* ---------------------------------------------------------------
-   Схематичные макеты интерфейса
-   --------------------------------------------------------------- */
-figure { margin: 0 0 1.7rem; }
+/* ——— схематичный макет интерфейса ——— */
+figure { margin: 1.5rem 0; }
 .ui {
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-lg);
-  background: var(--paper);
-  overflow: hidden;
-  font-size: var(--t-sm);
-  box-shadow: 0 1px 2px rgba(15, 28, 34, 0.04), 0 8px 22px -14px rgba(15, 28, 34, 0.28);
+  border: 1px solid var(--hair);
+  padding: 0.9rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
-.ui__chrome {
-  display: flex; align-items: center; gap: 0.4rem;
-  padding: 0.5rem 0.8rem; background: var(--surface);
-  border-bottom: 1px solid var(--line);
-}
-.ui__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
-.ui__path { margin-left: 0.6rem; font-family: var(--mono); font-size: var(--t-xs); color: var(--faint); }
+.ui__row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1rem; }
+@media (max-width: 620px) { .ui__row { grid-template-columns: 1fr; } }
+.ui__rail { border-right: 1px solid var(--hair); padding-right: 1rem; color: var(--soft); }
+@media (max-width: 620px) { .ui__rail { border-right: 0; border-bottom: 1px solid var(--hair); padding: 0 0 0.75rem; } }
+.ui__rail p { margin: 0 0 0.3rem; }
+.ui__line { border-bottom: 1px solid var(--hair); padding: 0.35rem 0; color: var(--soft); }
+.ui__line b { color: var(--ink); font-weight: 400; }
+.ui__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+@media (max-width: 620px) { .ui__cols { grid-template-columns: 1fr; } }
+.ui__col p { margin: 0 0 0.4rem; }
+.ui__col .h { color: var(--soft); border-bottom: 1px solid var(--hair); padding-bottom: 0.3rem; }
+.mark { color: var(--orange); font-weight: 700; }
 
-.ui__split { display: grid; grid-template-columns: 148px minmax(0, 1fr); min-height: 200px; }
-@media (max-width: 640px) { .ui__split { grid-template-columns: 1fr; } }
+figcaption { font-size: 0.8125rem; color: var(--faint); margin-top: 0.5rem; }
 
-.ui__rail { border-right: 1px solid var(--line); padding: 0.8rem; background: var(--paper); }
-@media (max-width: 640px) { .ui__rail { border-right: 0; border-bottom: 1px solid var(--line); } }
-.ui__cta {
-  display: block; width: 100%; text-align: center;
-  background: var(--accent); color: #fff;
-  border-radius: 5px; padding: 0.4rem 0.5rem;
-  font-size: var(--t-xs); font-weight: 600; margin-bottom: 0.7rem;
+ol.callouts { list-style: none; margin: 0.75rem 0 0; padding: 0; counter-reset: c; }
+ol.callouts li {
+  counter-increment: c;
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+  font-size: 0.9875rem;
+  line-height: 1.6;
 }
-.ui__navitem {
-  padding: 0.3rem 0.4rem; border-radius: 4px;
-  color: var(--muted); font-size: var(--t-xs);
-}
-.ui__navitem--on { background: var(--accent-soft); color: var(--accent-deep); font-weight: 600; }
+ol.callouts li::before { content: counter(c); color: var(--orange); font-weight: 700; }
 
-.ui__main { padding: 0.95rem 1rem 1.1rem; min-width: 0; }
-.ui__grid { display: grid; grid-template-columns: minmax(0, 1fr) 168px; gap: 1rem; }
-@media (max-width: 720px) { .ui__grid { grid-template-columns: 1fr; } }
+.foot { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--hair); color: var(--soft); font-size: 0.9875rem; }
+.foot a { color: var(--orange-d); }
 
-.ui__field {
-  border: 1px solid var(--line-strong); border-radius: 5px;
-  padding: 0.42rem 0.6rem; background: var(--paper);
-  color: var(--ink); font-size: var(--t-sm); margin-bottom: 0.55rem;
-}
-.ui__field--ghost { color: var(--faint); }
-.ui__field--tall { min-height: 74px; }
-.ui__queue {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  border: 1px solid var(--line-strong); border-radius: 5px;
-  padding: 0.28rem 0.55rem; font-size: var(--t-xs);
-  font-family: var(--mono); color: var(--accent); background: var(--accent-soft);
-  margin-bottom: 0.6rem;
-}
-.ui__params { border: 1px solid var(--line); border-radius: 6px; padding: 0.5rem 0.6rem; background: var(--surface); }
-.ui__prow {
-  display: grid; grid-template-columns: 4.6rem 1fr; gap: 0.4rem;
-  padding: 0.26rem 0; font-size: var(--t-xs); align-items: baseline;
-}
-.ui__prow dt { color: var(--muted); }
-.ui__prow dd { margin: 0; color: var(--ink); }
-.ui__btnrow { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.7rem; }
-.ui__btn {
-  background: var(--accent); color: #fff; border-radius: 5px;
-  padding: 0.34rem 0.8rem; font-size: var(--t-xs); font-weight: 600;
-}
-.ui__btn--ghost { background: none; color: var(--muted); font-weight: 400; }
-
-.pill {
-  display: inline-flex; align-items: center; gap: 0.35rem;
-  border: 1px solid var(--line-strong); border-radius: 999px;
-  padding: 0.1rem 0.5rem; font-size: var(--t-xs);
-  background: var(--paper); color: var(--ink-2); white-space: nowrap;
-}
-.pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--faint); }
-.pill--open::before { background: var(--faint); }
-.pill--work::before { background: var(--accent); }
-.pill--done::before { background: var(--ok); }
-
-.key {
-  font-family: var(--mono); font-size: 0.9em;
-  color: var(--accent-deep); background: var(--accent-soft);
-  padding: 0.05em 0.35em; border-radius: 3px;
-}
-
-/* Выноски-маркеры */
-.mark {
-  display: inline-grid; place-items: center;
-  width: 1.15rem; height: 1.15rem; flex: 0 0 auto;
-  border-radius: 50%; background: var(--accent); color: #fff;
-  font-family: var(--mono); font-size: 0.6875rem; font-weight: 700;
-  line-height: 1; vertical-align: 0.05em;
-}
-.ui .mark { margin-right: 0.35rem; }
-
-figcaption {
-  font-size: var(--t-sm); color: var(--muted);
-  margin-top: 0.7rem; padding-left: 0.1rem;
-}
-.callouts { list-style: none; margin: 0.85rem 0 0; padding: 0; display: grid; gap: 0.5rem; }
-.callouts li {
-  display: grid; grid-template-columns: 1.15rem 1fr; gap: 0.6rem;
-  align-items: start; font-size: var(--t-md); margin: 0;
-}
-
-/* Доска */
-.ui__board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
-.ui__col { background: var(--surface); border-radius: 6px; padding: 0.5rem; }
-.ui__coltitle {
-  font-size: var(--t-xs); color: var(--muted); font-weight: 600;
-  margin-bottom: 0.45rem; display: flex; justify-content: space-between;
-}
-.ui__card {
-  background: var(--paper); border: 1px solid var(--line);
-  border-radius: 5px; padding: 0.45rem 0.55rem; margin-bottom: 0.4rem;
-  font-size: var(--t-xs); line-height: 1.4;
-}
-.ui__card b { display: block; font-family: var(--mono); font-size: 0.6875rem; color: var(--faint); font-weight: 500; }
-
-/* Навигация по статьям */
-.pager {
-  display: flex; gap: 1rem; justify-content: space-between;
-  margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
-  flex-wrap: wrap;
-}
-.pager button {
-  background: none; border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 0.7rem 1rem; cursor: pointer; text-align: left; min-width: 12rem;
-  color: var(--ink);
-}
-.pager button:hover { border-color: var(--line-strong); background: var(--surface); }
-.pager small { display: block; font-family: var(--mono); font-size: var(--t-xs); color: var(--faint); margin-bottom: 0.15rem; }
-.pager button[disabled] { opacity: 0.35; cursor: default; }
-.pager button[disabled]:hover { background: none; border-color: var(--line); }
-
-/* Оглавление справа */
-.toc { position: sticky; top: 5rem; align-self: start; font-size: var(--t-sm); }
-.toc__title {
-  font-family: var(--mono); font-size: var(--t-xs);
-  text-transform: uppercase; letter-spacing: 0.09em;
-  color: var(--faint); margin: 0 0 0.75rem;
-}
-.toc ul { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
-.toc a {
-  display: block; padding: 0.28rem 0 0.28rem 0.85rem;
-  color: var(--muted); text-decoration: none; line-height: 1.45;
-  border-left: 2px solid transparent; margin-left: -1px;
-}
-.toc a:hover { color: var(--ink); }
-.toc a.on { color: var(--accent); border-left-color: var(--accent); }
-
-/* Заглушки */
-.stub__badge {
-  display: inline-block; font-family: var(--mono); font-size: var(--t-xs);
-  letter-spacing: 0.07em; text-transform: uppercase;
-  color: var(--warn); background: var(--warn-soft);
-  border: 1px solid #EFE0BE; border-radius: 4px;
-  padding: 0.2rem 0.5rem; margin-bottom: 1.1rem;
-}
-.stub__plan { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.3rem 1.4rem; background: var(--surface); }
-.stub__plan h2 { margin-top: 0; font-size: var(--t-md); }
-
-/* --- Мобильная навигация --- */
-.scrim {
-  position: fixed; inset: 0; background: rgba(15, 28, 34, 0.35);
-  z-index: 40; border: 0; padding: 0; cursor: pointer;
-}
-.scrim[hidden] { display: none; }
-
-@media (max-width: 900px) {
-  .doclayout { grid-template-columns: minmax(0, 1fr); }
-  .burger { display: inline-block; }
-  .sidebar {
-    position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
-    width: min(19rem, 84vw); height: 100vh;
-    transform: translateX(-101%);
-    transition: transform 0.24s ease;
-    box-shadow: 0 0 40px rgba(15, 28, 34, 0.18);
-    padding-top: 1.25rem;
-  }
-  .sidebar.open { transform: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .sidebar { transition: none; }
-}
+@media print { .sheet { width: 100%; padding: 0; } .cta, .back, .pager { display: none; } }
 </style>
 </head>
 <body>
 
-<a class="skip" href="#main">Перейти к содержанию</a>
-
-<!-- =============================================================
-     ЛЕНДИНГ
-     ============================================================= -->
-<div id="landing">
-
-  <header class="masthead">
-    <div class="wrap masthead__in">
-      <button type="button" class="wordmark" data-home>
-        Трекер для аналитиков
-        <span class="wordmark__tag">старт</span>
-      </button>
-      <span class="masthead__note">Прототип раздела документации</span>
-    </div>
-  </header>
-
-  <main class="wrap">
-
-    <section class="hero">
-      <div class="hero__grid">
-        <div>
-          <p class="eyebrow">Стартовый раздел</p>
-          <h1>Полная документация ответит на всё. Работать нужно уже сегодня.</h1>
-          <p class="hero__lede">
-            Пять статей, которые доводят нового бизнес-аналитика до первой поставленной
-            задачи за 15–20 минут. Без обзора возможностей и без настройки системы —
-            только то, без чего нельзя начать.
-          </p>
-          <div class="hero__cta">
-            <button type="button" class="btn" data-start>
-              Начать <span class="btn__arrow" aria-hidden="true">→</span>
-            </button>
-            <button type="button" class="linkish" data-goto="create">
-              Сразу к статье о создании задачи
-            </button>
-          </div>
-          <div class="hero__meta">
-            <div><b>15–20 мин</b>полное прохождение</div>
-            <div><b>5 статей</b>минимальный набор</div>
-            <div><b>0 настроек</b>всё делает администратор</div>
-          </div>
-        </div>
-
-        <aside class="blueprint" aria-label="Что вы умеете после прохождения">
-          <p class="blueprint__label">На выходе</p>
-          <ul class="skills">
-            <li><span class="tick" aria-hidden="true">✓</span><span>Создать задачу, пригодную к исполнению</span></li>
-            <li><span class="tick" aria-hidden="true">✓</span><span>Оформить требования так, чтобы их не переспрашивали</span></li>
-            <li><span class="tick" aria-hidden="true">✓</span><span>Назначить исполнителя и срок</span></li>
-            <li><span class="tick" aria-hidden="true">✓</span><span>Отследить выполнение в списке и на доске</span></li>
-          </ul>
-        </aside>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section__head">
-        <p class="eyebrow">Проблема</p>
-        <h2>Документация рассчитана на всех. Вы — конкретный человек в конкретный понедельник.</h2>
-        <p>
-          Справка Трекера отвечает на любой вопрос — при условии, что вопрос уже сформулирован.
-          В первый рабочий день вопрос ровно один: с чего начать.
-        </p>
-      </div>
-      <div class="cards">
-        <div class="card">
-          <h3>Объём не по задаче</h3>
-          <p>
-            Сотни страниц описывают очереди, автоматизацию, права доступа и интеграции.
-            Аналитику в первый день не нужно ничего из этого.
-          </p>
-        </div>
-        <div class="card">
-          <h3>Нет порядка чтения</h3>
-          <p>
-            Справочник устроен по разделам системы, а не по шагам человека.
-            Непонятно, что читать первым и где можно остановиться.
-          </p>
-        </div>
-        <div class="card">
-          <h3>Опыт не переносится</h3>
-          <p>
-            Вы знаете, что такое требование, срок и приоритет. Вы не знаете,
-            что задача обязана лежать в очереди, а её ключ не меняется никогда.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section__head">
-        <p class="eyebrow">Цель раздела</p>
-        <h2>Довести до самостоятельности, а не до экспертизы</h2>
-      </div>
-      <div class="outcome">
-        <p class="outcome__claim">
-          Стартовый раздел не заменяет справку Трекера. Он закрывает разрыв между
-          «выдали доступ» и «поставил первую задачу команде» — и дальше уступает
-          место полной документации.
-        </p>
-        <div>
-          <p style="margin-top:0;color:var(--muted);font-size:var(--t-md)">
-            Порог самостоятельности считается пройденным, когда аналитик может без
-            посторонней помощи:
-          </p>
-          <ul class="skills">
-            <li><span class="tick" aria-hidden="true">✓</span><span>завести задачу в нужной очереди;</span></li>
-            <li><span class="tick" aria-hidden="true">✓</span><span>описать требование так, чтобы исполнителю не пришлось переспрашивать;</span></li>
-            <li><span class="tick" aria-hidden="true">✓</span><span>передать задачу в работу и понимать, что происходит дальше;</span></li>
-            <li><span class="tick" aria-hidden="true">✓</span><span>найти любую свою задачу через сутки, не помня её названия.</span></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section__head">
-        <p class="eyebrow">Путь пользователя</p>
-        <h2>Пять шагов от доступа до задачи в работе</h2>
-        <p>Раздел построен по этому маршруту: одна статья — один шаг.</p>
-      </div>
-      <div class="journey">
-        <div class="jstep">
-          <h3>Получил доступ</h3>
-          <p>Вошёл в Трекер, разобрался в устройстве системы и главных разделах интерфейса.</p>
-          <span class="jstep__where">статьи 1–2</span>
-        </div>
-        <div class="jstep">
-          <h3>Нашёл очередь</h3>
-          <p>Определил рабочее пространство своей команды и добавил его в избранное.</p>
-          <span class="jstep__where">статья 2</span>
-        </div>
-        <div class="jstep">
-          <h3>Создал задачу</h3>
-          <p>Заполнил форму, выбрал очередь, сформулировал название по результату.</p>
-          <span class="jstep__where">статья 3</span>
-        </div>
-        <div class="jstep">
-          <h3>Оформил требования</h3>
-          <p>Описал контекст и критерии готовности, разбил работу чеклистом, приложил схемы.</p>
-          <span class="jstep__where">статьи 3–4</span>
-        </div>
-        <div class="jstep">
-          <h3>Передал в работу</h3>
-          <p>Назначил исполнителя, сменил статус и настроил себе способ отслеживать ход.</p>
-          <span class="jstep__where">статья 5</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section__head">
-        <p class="eyebrow">Границы</p>
-        <h2>Что раздел делает и чего не делает</h2>
-        <p>
-          Дисциплина объёма — главное условие: раздел, выросший до тридцати статей,
-          перестаёт быть стартовым.
-        </p>
-      </div>
-      <div class="scope">
-        <div class="scope__col scope__col--in">
-          <h3>Входит</h3>
-          <ul>
-            <li>Модель системы: очередь, задача, ключ, статус</li>
-            <li>Создание и оформление задачи</li>
-            <li>Обсуждение и участники задачи</li>
-            <li>Отслеживание: список и доска</li>
-          </ul>
-        </div>
-        <div class="scope__col scope__col--out">
-          <h3>Не входит</h3>
-          <ul>
-            <li>Настройка очередей, рабочих процессов, прав доступа</li>
-            <li>Автоматизация: триггеры, автодействия, SLA</li>
-            <li>Проекты, портфели, диаграмма Ганта, цели</li>
-            <li>Интеграции, API, перенос задач из других систем</li>
-          </ul>
-        </div>
-        <div class="scope__col">
-          <h3>Куда дальше</h3>
-          <ul>
-            <li>Полная справка Трекера — за подробностями</li>
-            <li>Раздел для администраторов — за настройками</li>
-            <li>Регламент команды — за договорённостями</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="finale">
-        <div>
-          <h2>Пятнадцать минут — и первая задача поставлена</h2>
-          <p>Начните с устройства системы или сразу переходите к созданию задачи.</p>
-        </div>
-        <button type="button" class="btn" data-start>
-          Начать <span class="btn__arrow" aria-hidden="true">→</span>
-        </button>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <p>Прототип стартового раздела документации. Тестовое задание, позиция технического писателя.</p>
-      <p>Данные в примерах вымышленные. Иллюстрации — схематичные макеты, а не снимки экрана.</p>
-    </footer>
-
-  </main>
-</div>
-
-<!-- =============================================================
-     ДОКУМЕНТАЦИЯ
-     ============================================================= -->
-<div id="docs" hidden>
-
-  <div class="docbar">
-    <div class="docbar__in">
-      <button type="button" class="burger" data-burger aria-expanded="false" aria-controls="sidebar">☰ Разделы</button>
-      <button type="button" class="wordmark" data-home>
-        Трекер для аналитиков
-        <span class="wordmark__tag">старт</span>
-      </button>
-      <nav class="crumbs" aria-label="Хлебные крошки">
-        <span class="sep" aria-hidden="true">/</span>
-        <span id="crumb">Как устроена работа в Трекере</span>
-      </nav>
-    </div>
-  </div>
-
-  <div class="doclayout">
-
-    <nav class="sidebar" id="sidebar" aria-label="Статьи стартового раздела">
-      <p class="sidebar__title">Стартовый раздел</p>
-      <ul class="nav" id="nav"></ul>
-      <div class="sidebar__foot">
-        <p style="margin:0 0 0.5rem">Прошли раздел?</p>
-        <a href="#" onclick="return false">Перейти к полной справке Трекера</a>
-      </div>
-    </nav>
-
-    <div class="article-area" id="main">
-      <div class="article-inner">
-        <div id="article"></div>
-        <aside class="toc" id="toc" hidden>
-          <p class="toc__title">На этой странице</p>
-          <ul id="toc-list"></ul>
-        </aside>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<button type="button" class="scrim" id="scrim" hidden aria-label="Закрыть меню"></button>
+<div class="sheet" id="sheet"></div>
 
 <script>
 (function () {
   "use strict";
 
-  /* ------------------------------------------------------------
-     Содержание раздела
-     ------------------------------------------------------------ */
   var ARTICLES = [
-    {
-      id: "model",
-      title: "Как устроена работа в Трекере",
-      state: "черновик",
-      ready: false,
-      goal: "Читатель получает модель системы: из каких сущностей она состоит, как они связаны и где проходит граница между Трекером и остальными рабочими инструментами.",
-      topics: [
-        "Очередь как рабочее пространство команды",
-        "Задача, её ключ и карточка",
-        "Статусы и рабочий процесс очереди",
-        "Что вести в задаче, а что оставить в документах"
-      ]
-    },
-    {
-      id: "access",
-      title: "Первый вход и очередь команды",
-      state: "черновик",
-      ready: false,
-      goal: "Читатель входит в Трекер, находит очередь своей команды, добавляет её в избранное и понимает, где искать собственные задачи.",
-      topics: [
-        "Вход и стартовая страница",
-        "Разделы бокового меню",
-        "Поиск очереди и добавление в избранное",
-        "Задачи, где вы автор и где исполнитель"
-      ]
-    },
-    {
-      id: "create",
-      title: "Создание задачи и основные приёмы работы с ней",
-      state: "готова",
-      ready: true
-    },
-    {
-      id: "requirements",
-      title: "Как описать требования в задаче",
-      state: "черновик",
-      ready: false,
-      goal: "Читатель оформляет требование в задаче так, чтобы исполнитель мог начать работу без уточняющих вопросов, и понимает, какой объём текста уместен в задаче, а какой — в документе.",
-      topics: [
-        "Структура описания: контекст, требование, критерии готовности",
-        "Ссылка на документ вместо копирования текста",
-        "Вложения: схемы процессов и макеты",
-        "Как фиксировать изменение требования"
-      ]
-    },
-    {
-      id: "track",
-      title: "Отслеживание выполнения: список и доска",
-      state: "черновик",
-      ready: false,
-      goal: "Читатель собирает нужный срез задач в списке, пользуется доской для наглядной картины хода работ и готовит регулярный статус без ручного пересчёта.",
-      topics: [
-        "Фильтры и группировка в списке очереди",
-        "Сохранённые подборки под регулярные сценарии",
-        "Доска: колонки, статусы, перемещение карточек",
-        "Что показывать руководителю"
-      ]
-    }
+    { id: "model",  title: "Как устроена система",       time: "2 мин", desc: "Очереди, задачи и ключи" },
+    { id: "queue",  title: "Как найти свою очередь",     time: "2 мин", desc: "Поиск рабочего пространства команды" },
+    { id: "create", title: "Как создать и оформить задачу", time: "4 мин", desc: "Понятное название, критерии готовности и чеклист", full: true,
+      heading: "Создание задачи и основные приёмы работы с ней" },
+    { id: "assign", title: "Как передать задачу в работу", time: "3 мин", desc: "Назначение исполнителя и установка сроков" },
+    { id: "track",  title: "Как отслеживать статус",      time: "4 мин", desc: "Доски и списки задач" }
   ];
 
-  /* ------------------------------------------------------------
-     Полная статья
-     ------------------------------------------------------------ */
-  function fullArticle() {
+  var sheet = document.getElementById("sheet");
+
+  /* ---------------------------------------------------------- главная */
+  function landing() {
+    var items = ARTICLES.map(function (a) {
+      return '<li><a href="#' + a.id + '" data-go="' + a.id + '">' +
+             '<b' + (a.full ? ' class="strong"' : '') + '>' + a.title +
+             (a.full ? '<span class="badge">подробная статья</span>' : '') + '</b>' +
+             '<span class="desc">' + a.time + ' · ' + a.desc + '</span>' +
+             '</a></li>';
+    }).join("");
+
+    return '<h1 class="page-title">Быстрый старт в Я.Трекере для аналитика</h1>' +
+      '<p>Пять коротких статей, чтобы за 15 минут поставить первую задачу ' +
+      'без погружения в настройки.</p>' +
+      '<button type="button" class="cta" data-go="model">Начать чтение</button>' +
+      '<h2><span class="num">1</span><span>Статьи раздела</span></h2>' +
+      '<ol class="plan">' + items + '</ol>' +
+      '<p class="foot">Нужно настроить права или интеграции? ' +
+      '<a href="https://yandex.ru/support/tracker/">Перейти к полной справке Трекера</a></p>';
+  }
+
+  /* ---------------------------------------------------- полная статья */
+  function full() {
     return [
-      '<article>',
-      '<p class="eyebrow">Статья 3 из 5 · Создание задачи</p>',
-      '<h1>Создание задачи и основные приёмы работы с ней</h1>',
-      '<p class="lede">Задача — основная единица работы в Трекере. Всё, что происходит по проекту, ',
+      '<a href="#" class="back" data-home>← Все статьи</a>',
+      '<h1 class="page-title">Создание задачи и основные приёмы работы с ней</h1>',
+      '<p class="meta">4 минуты · Нужен доступ в Я.Трекер и название очереди команды</p>',
+
+      '<p>Задача — основная единица работы в Я.Трекере. Всё, что происходит по проекту, ',
       'происходит внутри задач: в них ставят работу, обсуждают решения и фиксируют результат. ',
-      'Эта статья показывает, как создать задачу, пригодную к исполнению, и что делать с ней дальше.</p>',
+      'Статья показывает, как создать задачу, пригодную к исполнению, и что делать с ней дальше.</p>',
 
-      '<div class="meta-row">',
-      '<span><b>Время:</b> 8 минут</span>',
-      '<span><b>Кому:</b> аналитику, впервые работающему в трекере задач</span>',
-      '<span><b>Нужно заранее:</b> доступ в Трекер и название очереди команды</span>',
-      '</div>',
-
-      '<h2 id="terms">Термины, которые встретятся дальше</h2>',
-      '<dl class="glossary">',
-      '<div><dt>Очередь</dt><dd>Рабочее пространство команды или направления. Каждая задача обязательно принадлежит одной очереди — «просто задач» вне очереди не бывает.</dd></div>',
-      '<div><dt>Ключ задачи</dt><dd>Постоянный идентификатор вида <code>ANL-14</code>: код очереди и порядковый номер. Ключ присваивается при создании и служит адресом задачи — по нему на неё ссылаются в переписке и документах.</dd></div>',
-      '<div><dt>Статус</dt><dd>Текущее положение задачи в рабочем процессе: например, «Открыт», «В работе», «Закрыт». Статус адресован команде, а не вам: по нему коллеги понимают, чего от задачи ждать.</dd></div>',
-      '<div><dt>Исполнитель</dt><dd>Сотрудник, отвечающий за выполнение. У задачи он один. Задача без исполнителя формально существует, но фактически ничья.</dd></div>',
-      '<div><dt>Наблюдатель</dt><dd>Сотрудник, получающий уведомления об изменениях в задаче, но не отвечающий за неё.</dd></div>',
+      '<h2><span class="num">1</span><span>Термины</span></h2>',
+      '<dl class="terms">',
+      '<div><dt>Очередь</dt><dd> — рабочее пространство команды. Каждая задача принадлежит одной очереди; задач вне очереди не бывает.</dd></div>',
+      '<div><dt>Ключ задачи</dt><dd> — постоянный идентификатор вида ANL-14: код очереди и порядковый номер. Служит адресом задачи в переписке и документах.</dd></div>',
+      '<div><dt>Статус</dt><dd> — положение задачи в рабочем процессе. Адресован команде, а не автору: по нему коллеги понимают, чего от задачи ждать.</dd></div>',
+      '<div><dt>Исполнитель</dt><dd> — сотрудник, отвечающий за выполнение. У задачи он один.</dd></div>',
+      '<div><dt>Наблюдатель</dt><dd> — сотрудник, получающий уведомления об изменениях, но не отвечающий за задачу.</dd></div>',
       '</dl>',
 
-      /* ---------- Шаг 1 ---------- */
-      '<section class="step">',
-      '<p class="step__num">Шаг 1</p>',
-      '<h2 id="step-1">Откройте форму создания задачи</h2>',
-      '<p>Кнопка <b>«Создать задачу»</b> находится в левом меню и доступна с любой страницы Трекера — ',
+      '<h2><span class="num">2</span><span>Откройте форму создания задачи</span></h2>',
+      '<p>Кнопка <b>Создать задачу</b> находится в левом меню и доступна с любой страницы — ',
       'возвращаться на главную не нужно.</p>',
-
       '<figure>',
-      '<div class="ui">',
-      '<div class="ui__chrome"><span class="ui__dot"></span><span class="ui__dot"></span><span class="ui__dot"></span><span class="ui__path">трекер / любая страница</span></div>',
-      '<div class="ui__split">',
+      '<div class="ui"><div class="ui__row">',
       '<div class="ui__rail">',
-      '<div class="ui__cta"><span class="mark">1</span>Создать задачу</div>',
-      '<div class="ui__navitem">Задачи</div>',
-      '<div class="ui__navitem ui__navitem--on"><span class="mark">2</span>Очереди</div>',
-      '<div class="ui__navitem">Доски задач</div>',
-      '<div class="ui__navitem">Дашборды</div>',
+      '<p><span class="mark">1</span> Создать задачу</p>',
+      '<p>Задачи</p><p><span class="mark">2</span> Очереди</p><p>Доски задач</p><p>Дашборды</p>',
       '</div>',
-      '<div class="ui__main">',
-      '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.7rem">',
-      '<span class="key">ANL</span><b style="font-size:var(--t-md)">Аналитика</b>',
+      '<div>',
+      '<div class="ui__line">ANL · Аналитика</div>',
+      '<div class="ui__line"><b>ANL-11</b> Собрать требования к отчёту по продажам</div>',
+      '<div class="ui__line"><b>ANL-12</b> Согласовать ТЗ на интеграцию с учётной системой</div>',
       '</div>',
-      '<div class="ui__field ui__field--ghost">Поиск по названию задачи</div>',
-      '<div class="ui__card"><b>ANL-11</b>Собрать требования к отчёту по продажам</div>',
-      '<div class="ui__card"><b>ANL-12</b>Согласовать ТЗ на интеграцию с учётной системой</div>',
-      '</div>',
-      '</div>',
-      '</div>',
-      '<figcaption>Левое меню Трекера и список задач очереди.</figcaption>',
+      '</div></div>',
+      '<figcaption>Схема: левое меню и список задач очереди</figcaption>',
       '<ol class="callouts">',
-      '<li><span class="mark">1</span><span>Кнопка <b>«Создать задачу»</b> — синяя, в самом верху левого меню, над списком разделов. Нажатие открывает форму создания.</span></li>',
-      '<li><span class="mark">2</span><span>Раздел <b>«Очереди»</b> — здесь выбирают рабочее пространство команды. Ниже расположены разделы «Задачи», «Доски задач» и «Дашборды».</span></li>',
+      '<li>Кнопка <b>Создать задачу</b> — в самом верху левого меню, над списком разделов.</li>',
+      '<li>Раздел <b>Очереди</b> — выбор рабочего пространства команды. Ниже: «Задачи», «Доски задач», «Дашборды».</li>',
       '</ol>',
       '</figure>',
+      '<div class="note"><span class="note__mark" aria-hidden="true">!</span>',
+      '<p class="note__text">Если очередь команды уже открыта, задача создаётся прямо из неё — ',
+      'очередь подставится в форму автоматически.</p></div>',
 
-      '<div class="callout callout--tip"><span class="callout__label">Подсказка</span>',
-      'Если очередь команды уже открыта, задача создаётся прямо из неё — очередь подставится в форму автоматически, и шаг 2 можно пропустить.</div>',
-      '</section>',
+      '<h2><span class="num">3</span><span>Проверьте очередь</span></h2>',
+      '<p>В верхней части формы указана очередь, в которой будет создана задача. ',
+      'Если подставилась не та — смените её здесь же, до создания.</p>',
+      '<div class="note"><span class="note__mark" aria-hidden="true">!</span>',
+      '<p class="note__text">Ключ задачи формируется из кода очереди и после создания не меняется. ',
+      'Перенести задачу в другую очередь можно, но она получит новый ключ, а ссылки со старым ',
+      'перестанут её открывать.</p></div>',
 
-      /* ---------- Шаг 2 ---------- */
-      '<section class="step">',
-      '<p class="step__num">Шаг 2</p>',
-      '<h2 id="step-2">Проверьте очередь</h2>',
-      '<p>В верхней части формы указана очередь, в которой будет создана задача. Если подставилась ',
-      'не та — смените её здесь же, до создания.</p>',
-      '<div class="callout callout--warn"><span class="callout__label">Внимание</span>',
-      'Ключ задачи формируется из кода очереди и после создания не меняется. Перенести задачу в другую ',
-      'очередь можно, но она получит новый ключ, а ссылки со старым перестанут открывать её. ',
-      'Проверить очередь до нажатия кнопки дешевле, чем разбираться с этим потом.</div>',
-      '</section>',
-
-      /* ---------- Шаг 3 ---------- */
-      '<section class="step">',
-      '<p class="step__num">Шаг 3</p>',
-      '<h2 id="step-3">Сформулируйте название</h2>',
-      '<p>Название задачи читают в списках, где не видно ни описания, ни комментариев. ',
-      'Оно должно отвечать на один вопрос: <b>что должно быть сделано</b>. Не «в чём проблема», ',
-      'не «к кому вопрос», а какой результат ожидается.</p>',
-      '<div class="table-scroll">',
-      '<table>',
+      '<h2><span class="num">4</span><span>Сформулируйте название</span></h2>',
+      '<p>Название читают в списках, где не видно ни описания, ни комментариев. ',
+      'Оно должно отвечать на один вопрос: <b>что должно быть сделано</b>.</p>',
+      '<div class="tbl"><table>',
       '<thead><tr><th>Так не работает</th><th>Так работает</th><th>Почему</th></tr></thead>',
       '<tbody>',
       '<tr><td>Вопрос по отчёту</td><td>Согласовать состав полей отчёта по продажам</td><td>Видно требуемое действие и предмет</td></tr>',
-      '<tr><td>Коллеги, нужно посмотреть выгрузку</td><td>Проверить выгрузку остатков за июль на дубли</td><td>Задача — не письмо; обращение и вежливые обороты уводят смысл</td></tr>',
-      '<tr><td>Личный кабинет</td><td>Описать сценарий восстановления пароля в личном кабинете</td><td>Одно существительное не отличает задачу от десятка соседних</td></tr>',
-      '</tbody>',
-      '</table>',
-      '</div>',
-      '<p>Практическое правило: если название начинается с глагола в неопределённой форме — ',
-      '«Описать», «Согласовать», «Проверить», — задача почти наверняка сформулирована корректно.</p>',
-      '</section>',
+      '<tr><td>Коллеги, нужно посмотреть выгрузку</td><td>Проверить выгрузку остатков за июль на дубли</td><td>Задача — не письмо</td></tr>',
+      '<tr><td>Личный кабинет</td><td>Описать сценарий восстановления пароля</td><td>Одно существительное не отличает задачу от соседних</td></tr>',
+      '</tbody></table></div>',
+      '<p>Правило: если название начинается с глагола в неопределённой форме — «Описать», ',
+      '«Согласовать», «Проверить», — оно почти наверняка сформулировано верно.</p>',
 
-      /* ---------- Шаг 4 ---------- */
-      '<section class="step">',
-      '<p class="step__num">Шаг 4</p>',
-      '<h2 id="step-4">Заполните описание</h2>',
-      '<p>Описание отвечает на вопросы, которые исполнитель задал бы вам в переписке. ',
-      'Достаточно трёх блоков:</p>',
-      '<ul>',
-      '<li><b>Контекст</b> — откуда взялась задача и зачем она нужна.</li>',
-      '<li><b>Что сделать</b> — существо требования.</li>',
-      '<li><b>Критерии готовности</b> — по какому признаку задачу можно закрыть.</li>',
-      '</ul>',
-      '<p>Полный текст требований в описание не переносят: он живёт в документе, а в задаче ',
-      'остаётся ссылка на него. Задача — это про работу, документ — про содержание.</p>',
-
+      '<h2><span class="num">5</span><span>Заполните описание и параметры</span></h2>',
+      '<p>Описание отвечает на вопросы, которые исполнитель задал бы в переписке. Достаточно трёх блоков: ',
+      '<b>контекст</b> — откуда взялась задача; <b>что сделать</b> — существо требования; ',
+      '<b>критерии готовности</b> — по какому признаку задачу можно закрыть.</p>',
+      '<p>Полный текст требований в описание не переносят: он живёт в документе, ',
+      'а в задаче остаётся ссылка на него.</p>',
       '<figure>',
       '<div class="ui">',
-      '<div class="ui__chrome"><span class="ui__dot"></span><span class="ui__dot"></span><span class="ui__dot"></span><span class="ui__path">трекер / новая задача</span></div>',
-      '<div class="ui__main">',
-      '<div class="ui__queue"><span class="mark">1</span>ANL · Аналитика</div>',
-      '<div class="ui__grid">',
-      '<div>',
-      '<div class="ui__field"><span class="mark">2</span>Описать сценарий восстановления пароля</div>',
-      '<div class="ui__field ui__field--tall"><span class="mark">3</span> Контекст: обращения в поддержку по потерянным паролям — 40 в месяц.<br>Что сделать: описать шаги восстановления через почту и телефон.<br>Критерии готовности: сценарий согласован с безопасностью.</div>',
-      '<div style="font-size:var(--t-xs);color:var(--muted);display:flex;gap:0.9rem;margin-bottom:0.4rem">',
-      '<span>Прикрепить файлы</span><span>Связь с задачей</span><span><span class="mark">6</span>Чеклист</span>',
+      '<div class="ui__line"><span class="mark">1</span> ANL · Аналитика</div>',
+      '<div class="ui__line"><span class="mark">2</span> Описать сценарий восстановления пароля</div>',
+      '<div class="ui__line"><span class="mark">3</span> Контекст: 40 обращений в поддержку в месяц. Что сделать: описать шаги восстановления. Критерии готовности: сценарий согласован с безопасностью.</div>',
+      '<div class="ui__line"><span class="mark">4</span> Тип: Задача · Приоритет: Средний · Дедлайн: 22.09.2026</div>',
+      '<div class="ui__line"><span class="mark">5</span> Исполнитель: Н. Соколова · Наблюдатели: 2 человека</div>',
+      '<div class="ui__line"><span class="mark">6</span> Создать задачу</div>',
       '</div>',
-      '<div class="ui__btnrow"><span class="ui__btn"><span class="mark">7</span>Создать задачу</span><span class="ui__btn ui__btn--ghost">Отменить</span></div>',
-      '</div>',
-      '<div class="ui__params">',
-      '<dl style="margin:0">',
-      '<div class="ui__prow"><dt>Тип</dt><dd><span class="mark">4</span>Задача</dd></div>',
-      '<div class="ui__prow"><dt>Приоритет</dt><dd>Средний</dd></div>',
-      '<div class="ui__prow"><dt>Дедлайн</dt><dd>22.09.2026</dd></div>',
-      '<div class="ui__prow"><dt>Исполнитель</dt><dd><span class="mark">5</span>Н. Соколова</dd></div>',
-      '<div class="ui__prow"><dt>Наблюдатели</dt><dd>2 человека</dd></div>',
-      '<div class="ui__prow"><dt>Теги</dt><dd>—</dd></div>',
-      '</dl>',
-      '</div>',
-      '</div>',
-      '</div>',
-      '</div>',
-      '<figcaption>Форма создания задачи: слева — название и описание, справа — параметры.</figcaption>',
+      '<figcaption>Схема: состав формы создания задачи</figcaption>',
       '<ol class="callouts">',
-      '<li><span class="mark">1</span><span><b>Очередь</b> в верхней части формы. Здесь же меняется, если подставилась не та.</span></li>',
-      '<li><span class="mark">2</span><span><b>Название задачи</b> — верхнее поле, обязательное. Форму нельзя отправить, пока оно пустое.</span></li>',
-      '<li><span class="mark">3</span><span><b>Описание</b> — большое поле под названием. Поддерживает форматирование, списки и ссылки.</span></li>',
-      '<li><span class="mark">4</span><span><b>Панель параметров</b> справа: «Тип», «Приоритет», «Дата начала», «Дедлайн», «Исполнитель», «Наблюдатели», «Теги» и другие поля.</span></li>',
-      '<li><span class="mark">5</span><span><b>Исполнитель</b> — поле с поиском по сотрудникам. Начните вводить фамилию, выберите из подсказок.</span></li>',
-      '<li><span class="mark">6</span><span><b>Чеклист</b> — ссылка под описанием. Добавляет список пунктов с галочками внутри задачи.</span></li>',
-      '<li><span class="mark">7</span><span><b>Кнопка «Создать задачу»</b> — синяя, слева внизу формы. Рядом — «Отменить».</span></li>',
+      '<li>Очередь в верхней части формы; здесь же меняется.</li>',
+      '<li>Название задачи — верхнее поле, обязательное.</li>',
+      '<li>Описание — большое поле под названием, с форматированием и ссылками.</li>',
+      '<li>Панель параметров справа: тип, приоритет, дата начала, дедлайн.</li>',
+      '<li>Исполнитель и наблюдатели — поля с поиском по сотрудникам.</li>',
+      '<li>Кнопка «Создать задачу» — слева внизу формы, рядом «Отменить».</li>',
       '</ol>',
       '</figure>',
-      '</section>',
-
-      /* ---------- Шаг 5 ---------- */
-      '<section class="step">',
-      '<p class="step__num">Шаг 5</p>',
-      '<h2 id="step-5">Заполните параметры</h2>',
-      '<p>Из всей панели справа в первый день нужны четыре поля. Остальные заполняются ',
-      'по договорённости команды или не заполняются вовсе.</p>',
-      '<div class="table-scroll">',
-      '<table>',
+      '<p>Из всей панели в первый день нужны четыре поля.</p>',
+      '<div class="tbl"><table>',
       '<thead><tr><th>Поле</th><th>Что означает</th><th>Заполнять</th></tr></thead>',
       '<tbody>',
-      '<tr><td><b>Тип</b></td><td>Характер работы: задача, ошибка, улучшение. Определяет, как задачу учитывают в отчётах.</td><td>Да, если в очереди несколько типов</td></tr>',
-      '<tr><td><b>Приоритет</b></td><td>Очерёдность относительно других задач. Значение по умолчанию — «Средний».</td><td>Только если отличается от среднего</td></tr>',
-      '<tr><td><b>Дедлайн</b></td><td>Дата, к которой работа должна быть завершена.</td><td>Да, если срок реально существует</td></tr>',
-      '<tr><td><b>Исполнитель</b></td><td>Тот, кто отвечает за выполнение.</td><td>Всегда</td></tr>',
-      '<tr><td>Наблюдатели</td><td>Кто получает уведомления, не отвечая за задачу.</td><td>По необходимости</td></tr>',
-      '<tr><td>Теги, Компоненты</td><td>Метки для группировки и поиска.</td><td>По регламенту команды</td></tr>',
-      '</tbody>',
-      '</table>',
-      '</div>',
-      '<div class="callout callout--warn"><span class="callout__label">Частая ошибка</span>',
-      'Дедлайн ставят «на всякий случай», чтобы задача не потерялась. Через месяц половина задач ',
-      'в очереди просрочена, и поле перестаёт что-либо значить для всей команды. Срок указывают ',
-      'тогда, когда он есть на самом деле.</div>',
-      '</section>',
+      '<tr><td>Тип</td><td>Характер работы: задача, ошибка, улучшение</td><td>Если в очереди несколько типов</td></tr>',
+      '<tr><td>Приоритет</td><td>Очерёдность относительно других задач</td><td>Если отличается от среднего</td></tr>',
+      '<tr><td>Дедлайн</td><td>Дата завершения работы</td><td>Если срок реально существует</td></tr>',
+      '<tr><td>Исполнитель</td><td>Тот, кто отвечает за выполнение</td><td>Всегда</td></tr>',
+      '</tbody></table></div>',
+      '<div class="note"><span class="note__mark" aria-hidden="true">!</span>',
+      '<p class="note__text">Дедлайн, поставленный «на всякий случай», через месяц делает просроченной ',
+      'половину очереди — и поле перестаёт что-либо значить для команды.</p></div>',
 
-      /* ---------- Шаг 6 ---------- */
-      '<section class="step">',
-      '<p class="step__num">Шаг 6</p>',
-      '<h2 id="step-6">Создайте задачу</h2>',
-      '<p>Нажмите <b>«Создать задачу»</b>. Произойдёт следующее:</p>',
-      '<ul>',
-      '<li>задача получит постоянный ключ вида <code>ANL-14</code>;</li>',
-      '<li>ей присвоится начальный статус рабочего процесса — обычно <span class="pill pill--open">Открыт</span>;</li>',
-      '<li>исполнитель и наблюдатели получат уведомление;</li>',
-      '<li>откроется карточка задачи.</li>',
+      '<h2><span class="num">6</span><span>Создайте задачу</span></h2>',
+      '<p>Нажмите <b>Создать задачу</b>. Задача получит постоянный ключ вида ANL-14 и начальный ',
+      'статус рабочего процесса, исполнитель и наблюдатели получат уведомление, откроется карточка задачи.</p>',
+
+      '<h2><span class="num">7</span><span>Основные приёмы работы</span></h2>',
+      '<ul class="plain">',
+      '<li><span><b class="term">Смена статуса.</b> Переключается в правой части карточки. Набор статусов задаёт рабочий процесс очереди: <span class="mark">Открыт → В работе → Закрыт</span>. Произвольные значения ввести нельзя — команда видит одинаковую картину.</span></li>',
+      '<li><span><b class="term">Комментарий и призыв.</b> Обсуждение ведут в задаче, а не в мессенджере: через полгода никто не вспомнит, почему требование изменили. Чтобы привлечь коллегу, упомяните его через «собаку» — он получит уведомление и станет наблюдателем.</span></li>',
+      '<li><span><b class="term">Чеклист.</b> Если задача состоит из нескольких шагов, но дробить её избыточно — добавьте список пунктов с галочками. Прогресс виден в карточке.</span></li>',
+      '<li><span><b class="term">Связи между задачами.</b> Работа аналитика зависима: требование ждёт решения архитектора, согласование — ответа заказчика. Ставьте связь «блокируется» вместо того, чтобы держать ожидание в переписке.</span></li>',
       '</ul>',
-      '</section>',
-
-      /* ---------- Приёмы ---------- */
-      '<h2 id="basics">Основные приёмы работы с задачей</h2>',
-      '<p>Дальше задача живёт в своей карточке. Четыре действия покрывают почти всю ежедневную работу.</p>',
-
-      '<h3 id="basics-status">Сменить статус</h3>',
-      '<p>Статус переключается в правой части карточки. Набор доступных статусов задаёт рабочий процесс ',
-      'очереди — произвольные значения ввести нельзя, и это осознанное ограничение: команда видит ',
-      'одинаковую картину.</p>',
-      '<p style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">',
-      '<span class="pill pill--open">Открыт</span><span style="color:var(--faint)">→</span>',
-      '<span class="pill pill--work">В работе</span><span style="color:var(--faint)">→</span>',
-      '<span class="pill pill--done">Закрыт</span>',
-      '</p>',
-
-      '<h3 id="basics-comment">Написать комментарий и призвать коллегу</h3>',
-      '<p>Обсуждение ведут в комментариях задачи, а не в мессенджере. Причина практическая: ',
-      'через полгода никто не вспомнит, почему требование изменили, а в задаче это останется. ',
-      'Чтобы привлечь сотрудника, используйте <b>призыв</b> — упоминание через <code>@</code>: ',
-      'он получит уведомление и добавится в наблюдатели.</p>',
-
-      '<h3 id="basics-checklist">Разбить работу чеклистом</h3>',
-      '<p>Если задача состоит из нескольких шагов, но дробить её на отдельные задачи избыточно, ',
-      'добавьте <b>чеклист</b> — список пунктов с галочками. Прогресс виден прямо в карточке.</p>',
-
-      '<h3 id="basics-links">Связать с другими задачами</h3>',
-      '<p>Работа аналитика зависима по своей природе: требование ждёт решения архитектора, ',
-      'согласование — ответа заказчика. Чтобы это было видно команде, ставьте связь ',
-      '<b>«блокируется»</b> вместо того, чтобы держать ожидание в голове или в переписке.</p>',
-
       '<figure>',
-      '<div class="ui">',
-      '<div class="ui__chrome"><span class="ui__dot"></span><span class="ui__dot"></span><span class="ui__dot"></span><span class="ui__path">трекер / ANL / доска</span></div>',
-      '<div class="ui__main">',
-      '<div class="ui__board">',
-      '<div class="ui__col">',
-      '<div class="ui__coltitle"><span>Открыт</span><span>2</span></div>',
-      '<div class="ui__card"><b>ANL-14</b>Описать сценарий восстановления пароля</div>',
-      '<div class="ui__card"><b>ANL-15</b>Актуализировать глоссарий</div>',
-      '</div>',
-      '<div class="ui__col">',
-      '<div class="ui__coltitle"><span>В работе</span><span>1</span></div>',
-      '<div class="ui__card"><b>ANL-12</b>Согласовать ТЗ на интеграцию</div>',
-      '</div>',
-      '<div class="ui__col">',
-      '<div class="ui__coltitle"><span>Закрыт</span><span>1</span></div>',
-      '<div class="ui__card"><b>ANL-11</b>Собрать требования к отчёту</div>',
-      '</div>',
-      '</div>',
-      '</div>',
-      '</div>',
-      '<figcaption>Та же очередь в режиме доски: колонки соответствуют статусам.</figcaption>',
-      '<ol class="callouts">',
-      '<li><span class="mark">·</span><span>Каждая <b>колонка</b> — это статус рабочего процесса. Число справа от названия колонки показывает количество задач в ней.</span></li>',
-      '<li><span class="mark">·</span><span><b>Карточка</b> содержит ключ задачи и название. Перетаскивание карточки в соседнюю колонку меняет статус задачи — отдельно открывать её не нужно.</span></li>',
-      '</ol>',
+      '<div class="ui"><div class="ui__cols">',
+      '<div class="ui__col"><p class="h">Открыт · 2</p><p>ANL-14 Описать сценарий восстановления пароля</p><p>ANL-15 Актуализировать глоссарий</p></div>',
+      '<div class="ui__col"><p class="h">В работе · 1</p><p>ANL-12 Согласовать ТЗ на интеграцию</p></div>',
+      '<div class="ui__col"><p class="h">Закрыт · 1</p><p>ANL-11 Собрать требования к отчёту</p></div>',
+      '</div></div>',
+      '<figcaption>Схема: та же очередь в режиме доски — колонки соответствуют статусам</figcaption>',
       '</figure>',
 
-      /* ---------- Справочный блок ---------- */
-      '<h2 id="ref">Справочный блок</h2>',
-
-      '<h3 id="ref-mistakes">Типичные ошибки</h3>',
-      '<div class="table-scroll">',
-      '<table>',
+      '<h2><span class="num">8</span><span>Типичные ошибки</span></h2>',
+      '<div class="tbl"><table>',
       '<thead><tr><th>Ошибка</th><th>Чем оборачивается</th><th>Как правильно</th></tr></thead>',
       '<tbody>',
-      '<tr><td>Задача написана как письмо</td><td>Исполнитель вычитывает три абзаца, чтобы понять требуемое действие</td><td>Название — глагол и результат, вежливые обороты не нужны</td></tr>',
-      '<tr><td>Исполнитель не назначен</td><td>Задача не попадает ни в чей список и всплывает на статусе через месяц</td><td>Назначать сразу; если исполнитель неизвестен — ставить руководителя направления</td></tr>',
-      '<tr><td>Обсуждение ушло в мессенджер</td><td>Решение принято, обоснование потеряно</td><td>Итог обсуждения переносить в комментарий задачи</td></tr>',
-      '<tr><td>Задача заведена повторно</td><td>Две задачи об одном, у каждой свой кусок истории</td><td>Перед созданием искать по ключевому слову в очереди</td></tr>',
-      '<tr><td>Статус не меняется неделями</td><td>Команда считает работу незапущенной, хотя она идёт</td><td>Переводить в «В работе» в день начала работы</td></tr>',
-      '<tr><td>Весь текст требований — в описании</td><td>Описание невозможно читать, изменения не отследить</td><td>Требования в документе, в задаче — ссылка и критерии готовности</td></tr>',
-      '</tbody>',
-      '</table>',
-      '</div>',
+      '<tr><td>Задача написана как письмо</td><td>Исполнитель вычитывает три абзаца ради одного действия</td><td>Название — глагол и результат</td></tr>',
+      '<tr><td>Исполнитель не назначен</td><td>Задача не попадает ни в чей список</td><td>Назначать сразу, хотя бы руководителя направления</td></tr>',
+      '<tr><td>Обсуждение ушло в мессенджер</td><td>Решение принято, обоснование потеряно</td><td>Итог переносить в комментарий задачи</td></tr>',
+      '<tr><td>Задача заведена повторно</td><td>Две задачи об одном, у каждой свой кусок истории</td><td>Перед созданием искать по ключевому слову</td></tr>',
+      '<tr><td>Статус не меняется неделями</td><td>Команда считает работу незапущенной</td><td>Переводить в «В работе» в день начала</td></tr>',
+      '</tbody></table></div>',
 
-      '<h3 id="ref-tips">Что стоит запомнить</h3>',
-      '<ul>',
-      '<li>Ключ задачи постоянен — на него можно ссылаться в документах и письмах.</li>',
-      '<li>Задача без исполнителя ничья, даже если автор помнит о ней.</li>',
-      '<li>Статус — сообщение команде, а не личная пометка.</li>',
-      '<li>Всё, что обсуждено вне задачи, для команды не существует.</li>',
-      '</ul>',
-
-      '<h3 id="ref-next">Смежные статьи</h3>',
-      '<ul>',
-      '<li><button type="button" class="linkish" data-goto="model">Как устроена работа в Трекере</button> — если непонятны термины «очередь» и «рабочий процесс».</li>',
-      '<li><button type="button" class="linkish" data-goto="requirements">Как описать требования в задаче</button> — подробно о структуре описания и работе с документами.</li>',
-      '<li><button type="button" class="linkish" data-goto="track">Отслеживание выполнения: список и доска</button> — как собрать нужный срез задач и подготовить статус.</li>',
-      '</ul>',
-      '</article>'
+      '<div class="pager" id="pager"></div>'
     ].join("");
   }
 
-  /* ------------------------------------------------------------
-     Заглушки
-     ------------------------------------------------------------ */
-  function stubArticle(a, index) {
-    var topics = a.topics.map(function (t) { return "<li>" + t + "</li>"; }).join("");
-    return [
-      '<article>',
-      '<p class="eyebrow">Статья ', (index + 1), ' из ', ARTICLES.length, '</p>',
-      '<h1>', a.title, '</h1>',
-      '<span class="stub__badge">Черновик · текст в подготовке</span>',
-      '<p class="lede">', a.goal, '</p>',
-      '<div class="stub__plan">',
-      '<h2 style="scroll-margin-top:0">Что будет раскрыто</h2>',
-      '<ul style="margin-bottom:0">', topics, '</ul>',
-      '</div>',
-      '<div class="callout callout--tip" style="margin-top:1.6rem"><span class="callout__label">Прототип</span>',
-      'В этом прототипе полностью написана статья ',
-      '<button type="button" class="linkish" data-goto="create">«Создание задачи и основные приёмы работы с ней»</button>. ',
-      'Остальные статьи показаны структурой: название, цель и ключевые подтемы.</div>',
-      '</article>'
-    ].join("");
+  /* -------------------------------------------------------- заглушка */
+  function stub(a, i) {
+    return '<a href="#" class="back" data-home>← Все статьи</a>' +
+      '<h1 class="page-title">' + a.title + '</h1>' +
+      '<p class="meta">' + a.time + ' · Статья ' + (i + 1) + ' из ' + ARTICLES.length + '</p>' +
+      '<p>' + a.desc + '.</p>' +
+      '<p class="soft">Текст статьи в подготовке. В прототипе полностью написана статья ' +
+      '<a href="#create" data-go="create"><b>«Создание задачи и основные приёмы работы с ней»</b></a>.</p>' +
+      '<div class="pager" id="pager"></div>';
   }
 
-  /* ------------------------------------------------------------
-     Элементы
-     ------------------------------------------------------------ */
-  var landing  = document.getElementById("landing");
-  var docs     = document.getElementById("docs");
-  var navList  = document.getElementById("nav");
-  var holder   = document.getElementById("article");
-  var crumb    = document.getElementById("crumb");
-  var toc      = document.getElementById("toc");
-  var tocList  = document.getElementById("toc-list");
-  var sidebar  = document.getElementById("sidebar");
-  var scrim    = document.getElementById("scrim");
-  var current  = null;
-  var spyHandler = null;
-
-  /* ------------------------------------------------------------
-     Навигация
-     ------------------------------------------------------------ */
-  ARTICLES.forEach(function (a) {
-    var li = document.createElement("li");
-    var b  = document.createElement("button");
-    b.type = "button";
-    b.dataset.goto = a.id;
-    b.innerHTML = "<span>" + a.title + "</span>" +
-                  '<span class="state' + (a.ready ? " state--ready" : "") + '">' + a.state + "</span>";
-    li.appendChild(b);
-    navList.appendChild(li);
-  });
-
-  function closeDrawer() {
-    sidebar.classList.remove("open");
-    scrim.hidden = true;
-    var burger = document.querySelector("[data-burger]");
-    if (burger) { burger.setAttribute("aria-expanded", "false"); }
-  }
-
-  function buildToc() {
-    if (spyHandler) {
-      window.removeEventListener("scroll", spyHandler);
-      spyHandler = null;
+  function pager(i) {
+    var out = "";
+    if (ARTICLES[i - 1]) {
+      out += '<p><span class="lbl">Предыдущая: </span><a href="#' + ARTICLES[i - 1].id +
+             '" data-go="' + ARTICLES[i - 1].id + '">' + ARTICLES[i - 1].title + '</a></p>';
     }
-    tocList.innerHTML = "";
-    var heads = Array.prototype.slice.call(holder.querySelectorAll("h2[id]"));
-    if (heads.length < 3) { toc.hidden = true; return; }
-    toc.hidden = false;
-
-    var links = {};
-    heads.forEach(function (h) {
-      var li = document.createElement("li");
-      var a  = document.createElement("a");
-      a.href = "#" + h.id;
-      a.textContent = h.textContent;
-      li.appendChild(a);
-      tocList.appendChild(li);
-      links[h.id] = a;
-    });
-
-    /* Активен последний заголовок, ушедший выше линии чтения */
-    spyHandler = function () {
-      var active = heads[0];
-      heads.forEach(function (h) {
-        if (h.getBoundingClientRect().top <= 96) { active = h; }
-      });
-      heads.forEach(function (h) {
-        if (links[h.id]) { links[h.id].classList.toggle("on", h === active); }
-      });
-    };
-    window.addEventListener("scroll", spyHandler, { passive: true });
-    spyHandler();
+    if (ARTICLES[i + 1]) {
+      out += '<p><span class="lbl">Следующая: </span><a href="#' + ARTICLES[i + 1].id +
+             '" data-go="' + ARTICLES[i + 1].id + '">' + ARTICLES[i + 1].title + '</a></p>';
+    }
+    return out;
   }
 
-  function show(id, keepScroll) {
-    var index = 0;
-    ARTICLES.forEach(function (a, i) { if (a.id === id) { index = i; } });
-    var a = ARTICLES[index];
-    current = a.id;
-
-    holder.innerHTML = a.ready ? fullArticle() : stubArticle(a, index);
-    crumb.textContent = a.title;
-    document.title = a.title + " · Стартовый раздел";
-
-    Array.prototype.forEach.call(navList.querySelectorAll("button"), function (b) {
-      if (b.dataset.goto === a.id) { b.setAttribute("aria-current", "page"); }
-      else { b.removeAttribute("aria-current"); }
-    });
-
-    holder.appendChild(pager(index));
-    buildToc();
-    closeDrawer();
-
-    if (history.replaceState) { history.replaceState(null, "", "#" + a.id); }
-    if (!keepScroll) { window.scrollTo({ top: 0, behavior: "auto" }); }
+  function show(id) {
+    var i = 0;
+    ARTICLES.forEach(function (a, n) { if (a.id === id) { i = n; } });
+    var a = ARTICLES[i];
+    sheet.innerHTML = a.full ? full() : stub(a, i);
+    var p = document.getElementById("pager");
+    if (p) { p.innerHTML = pager(i); }
+    document.title = (a.heading || a.title) + " · Быстрый старт в Я.Трекере";
+    window.scrollTo(0, 0);
   }
 
-  function pager(index) {
-    var box  = document.createElement("nav");
-    box.className = "pager";
-    box.setAttribute("aria-label", "Соседние статьи");
-    var prev = ARTICLES[index - 1];
-    var next = ARTICLES[index + 1];
-
-    var bp = document.createElement("button");
-    bp.type = "button";
-    bp.innerHTML = "<small>Предыдущая</small>" + (prev ? prev.title : "Это первая статья");
-    if (prev) { bp.dataset.goto = prev.id; } else { bp.disabled = true; }
-
-    var bn = document.createElement("button");
-    bn.type = "button";
-    bn.innerHTML = "<small>Следующая</small>" + (next ? next.title : "Это последняя статья");
-    if (next) { bn.dataset.goto = next.id; } else { bn.disabled = true; }
-
-    box.appendChild(bp);
-    box.appendChild(bn);
-    return box;
+  function home() {
+    sheet.innerHTML = landing();
+    document.title = "Быстрый старт в Я.Трекере для аналитика";
+    window.scrollTo(0, 0);
   }
 
-  /* Класс анимации снимается сразу после её окончания: пока он висит,
-     #docs остаётся контекстом наложения и запирает z-index выдвижной панели */
-  docs.addEventListener("animationend", function () {
-    docs.classList.remove("view-enter");
-  });
-
-  function openDocs(id) {
-    landing.hidden = true;
-    docs.hidden = false;
-    docs.classList.remove("view-enter");
-    void docs.offsetWidth;
-    docs.classList.add("view-enter");
-    show(id || ARTICLES[0].id);
-  }
-
-  function openLanding() {
-    docs.hidden = true;
-    landing.hidden = false;
-    closeDrawer();
-    if (history.replaceState) { history.replaceState(null, "", "#"); }
-    window.scrollTo({ top: 0, behavior: "auto" });
-    document.title = "Стартовый раздел · Яндекс.Трекер для аналитиков";
-  }
-
-  /* ------------------------------------------------------------
-     События
-     ------------------------------------------------------------ */
   document.addEventListener("click", function (e) {
-    var start = e.target.closest("[data-start]");
-    if (start) { openDocs(ARTICLES[0].id); return; }
+    var back = e.target.closest("[data-home]");
+    if (back) { e.preventDefault(); history.replaceState(null, "", "#"); home(); return; }
 
-    var home = e.target.closest("[data-home]");
-    if (home) { openLanding(); return; }
-
-    var go = e.target.closest("[data-goto]");
+    var go = e.target.closest("[data-go]");
     if (go) {
-      if (docs.hidden) { openDocs(go.dataset.goto); }
-      else { show(go.dataset.goto); }
-      return;
-    }
-
-    var burger = e.target.closest("[data-burger]");
-    if (burger) {
-      var open = sidebar.classList.toggle("open");
-      scrim.hidden = !open;
-      burger.setAttribute("aria-expanded", open ? "true" : "false");
-      return;
-    }
-
-    if (e.target === scrim) { closeDrawer(); return; }
-
-    var anchor = e.target.closest('.toc a');
-    if (anchor) {
       e.preventDefault();
-      var target = document.getElementById(anchor.getAttribute("href").slice(1));
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-        if (history.replaceState) { history.replaceState(null, "", "#" + current); }
-      }
+      history.replaceState(null, "", "#" + go.dataset.go);
+      show(go.dataset.go);
     }
   });
 
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { closeDrawer(); }
-  });
-
-  /* Прямая ссылка вида #create */
   var hash = window.location.hash.replace("#", "");
-  var known = ARTICLES.some(function (a) { return a.id === hash; });
-  if (known) { openDocs(hash); }
+  if (ARTICLES.some(function (a) { return a.id === hash; })) { show(hash); } else { home(); }
 })();
 </script>
 
