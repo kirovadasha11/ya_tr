@@ -80,28 +80,30 @@ html.js .page { display: none; }
 html.js .page.is-current { display: block; }
 
 /* ——— меню ——— */
-.nav, .nav__sub { list-style: none; margin: 0; padding: 0; }
+.nav, .nav__sub, .nav__sub2 { list-style: none; margin: 0; padding: 0; }
 .nav > li { margin-bottom: 1rem; }
 .nav > li:last-child { margin-bottom: 0; }
 .nav a { display: block; }
 .nav [aria-current="page"] { color: var(--orange-d); font-weight: 620; }
 
 .nav__sub { margin-top: 0.5rem; }
-.nav__sub li { margin-bottom: 0.6rem; }
-.nav__sub li:last-child { margin-bottom: 0; }
+.nav__sub > li { margin-bottom: 0.6rem; }
+.nav__sub > li:last-child { margin-bottom: 0; }
 
 /* Шеврон: вправо у обычного пункта, вниз у выбранного.
    Рисуется двумя границами квадрата, а не символом шрифта —
    так форма и толщина одинаковы везде. Текст вынесен в отдельную
-   ячейку сетки, чтобы перенос строк шёл ровно под первой строкой. */
-.nav__sub a {
+   ячейку сетки, чтобы перенос строк шёл ровно под первой строкой.
+   Селекторы прямых потомков, иначе правила протекли бы в третий
+   уровень меню. */
+.nav__sub > li > a {
   display: grid;
   grid-template-columns: 0.9rem 1fr;
   gap: 0.5rem;
   align-items: start;
 }
-.nav__sub .mk { position: relative; height: 1.6em; }
-.nav__sub .mk::before {
+.nav__sub > li > a .mk { position: relative; height: 1.6em; }
+.nav__sub > li > a .mk::before {
   content: "";
   position: absolute;
   left: 0.05rem;
@@ -112,9 +114,18 @@ html.js .page.is-current { display: block; }
   border-bottom: 1.5px solid currentColor;
   transform: translateY(-60%) rotate(-45deg);
 }
-.nav__sub [aria-current="page"] .mk::before {
+.nav__sub > li > a[aria-current="page"] .mk::before {
   transform: translateY(-70%) rotate(45deg);
 }
+
+/* Третий уровень — разделы открытой статьи.
+   Без скрипта виден всегда, со скриптом только у текущего пункта.
+   Соседний комбинатор вместо :has — поддержка шире. */
+.nav__sub2 { margin: 0.5rem 0 0 1.4rem; color: var(--soft); }
+.nav__sub2 li { margin-bottom: 0.4rem; }
+.nav__sub2 li:last-child { margin-bottom: 0; }
+html.js .nav__sub2 { display: none; }
+html.js .nav__sub > li > a[aria-current="page"] + .nav__sub2 { display: block; }
 
 /* ——— типографика листа ——— */
 .page-title {
@@ -141,9 +152,10 @@ h2 {
 }
 .page-title + h2 { margin-top: 0; padding-top: 0; border-top: 0; }
 
-/* Разделы ключевой статьи — без нумерации и цветом акцента:
-   так они отличаются от нумерованных разделов документа. */
-#create h2 { display: block; color: var(--orange); }
+/* Разделы ключевой статьи — без нумерации. */
+#create h2 { display: block; }
+
+h2 { scroll-margin-top: 1.5rem; }
 
 .num { font-size: 0.85em; font-weight: 700; color: var(--orange); }
 
@@ -297,8 +309,15 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
         <a href="#home">Быстрый старт в Я.Трекере для бизнес-аналитика</a>
         <ol class="nav__sub">
           <li><a href="#intro"><span class="mk" aria-hidden="true"></span><span>Знакомство с Я.Трекером</span></a></li>
-          <li><a href="#create"><span class="mk" aria-hidden="true"></span><span>Создание задачи и основные приёмы работы с ней<span class="badge">← подробная статья</span></span></a></li>
-          <li><a href="#search"><span class="mk" aria-hidden="true"></span><span>Поиск и организация работы</span></a></li>
+          <li>
+            <a href="#create"><span class="mk" aria-hidden="true"></span><span>Создание задачи и основные приёмы работы с ней<span class="badge">← подробная статья</span></span></a>
+            <ol class="nav__sub2">
+              <li><a href="#create-new">Создание задачи</a></li>
+              <li><a href="#create-handover">Передача задачи в работу</a></li>
+              <li><a href="#create-after">Работа с задачей после создания</a></li>
+            </ol>
+          </li>
+          <li><a href="#search"><span class="mk" aria-hidden="true"></span><span>Поиск задач и организация работы</span></a></li>
           <li><a href="#extra"><span class="mk" aria-hidden="true"></span><span>Оптимизация работы</span></a></li>
         </ol>
       </li>
@@ -327,7 +346,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
             <span class="desc">6 мин · Выполнить первый рабочий сценарий</span>
           </a></li>
           <li><a href="#search">
-            <b>Поиск и организация работы</b>
+            <b>Поиск задач и организация работы</b>
             <span class="desc">4 мин · Эффективно работать с созданными задачами</span>
           </a></li>
           <li><a href="#extra">
@@ -396,7 +415,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
             <span class="desc">Выполнить первый рабочий сценарий</span>
           </span></li>
           <li><span>
-            <b>Поиск и организация работы</b>
+            <b>Поиск задач и организация работы</b>
             <span class="desc">Эффективно работать с созданными задачами</span>
           </span></li>
           <li><span>
@@ -428,16 +447,16 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
         <p><b>Цель статьи.</b> Научить бизнес-аналитика создавать задачи в Я.Трекере
           и использовать основные возможности для сопровождения работы команды.</p>
 
-        <h2>Создание задачи</h2>
+        <h2 id="create-new">Создание задачи</h2>
 
-        <h2>Передача задачи в работу</h2>
+        <h2 id="create-handover">Передача задачи в работу</h2>
 
-        <h2>Сопровождение задачи</h2>
+        <h2 id="create-after">Работа с задачей после создания</h2>
       </article>
 
       <!-- ============================================ статья 3 -->
-      <article class="page" id="search" data-title="Поиск и организация работы · Быстрый старт">
-        <h1 class="page-title">Поиск и организация работы</h1>
+      <article class="page" id="search" data-title="Поиск задач и организация работы · Быстрый старт">
+        <h1 class="page-title">Поиск задач и организация работы</h1>
         <p class="meta">4 мин · Статья 3 из 4</p>
         <p><b>Цель статьи.</b> Научить пользователя находить нужные задачи
           и организовывать работу с ними после создания.</p>
@@ -479,7 +498,8 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
   var links = document.querySelectorAll(".nav a");
 
   function show(id) {
-    if (!document.getElementById(id)) { id = DEFAULT; }
+    var target = document.getElementById(id);
+    if (!target || !target.classList.contains("page")) { id = DEFAULT; }
 
     Array.prototype.forEach.call(pages, function (p) {
       p.classList.toggle("is-current", p.id === id);
@@ -495,6 +515,20 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
     window.scrollTo(0, 0);
   }
 
+  /* Ссылка ведёт либо на страницу, либо на раздел внутри неё.
+     Во втором случае сначала открываем нужную страницу, потом
+     прокручиваем к разделу. */
+  function go(id, smooth) {
+    var el = id ? document.getElementById(id) : null;
+    if (el && !el.classList.contains("page")) {
+      var page = el.closest(".page");
+      show(page ? page.id : DEFAULT);
+      el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+      return;
+    }
+    show(el ? id : DEFAULT);
+  }
+
   document.addEventListener("click", function (e) {
     var a = e.target.closest('a[href^="#"]');
     if (!a) { return; }
@@ -502,10 +536,10 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
     if (!document.getElementById(id)) { return; }
     e.preventDefault();
     history.replaceState(null, "", id === DEFAULT ? "#" : "#" + id);
-    show(id);
+    go(id, true);
   });
 
-  show(window.location.hash.slice(1) || DEFAULT);
+  go(window.location.hash.slice(1) || DEFAULT, false);
 })();
 </script>
 
