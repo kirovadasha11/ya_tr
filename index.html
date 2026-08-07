@@ -86,30 +86,35 @@ html.js .page.is-current { display: block; }
 .nav a { display: block; }
 .nav [aria-current="page"] { color: var(--orange-d); font-weight: 620; }
 
-.nav__sub { counter-reset: s; margin-top: 0.5rem; }
-.nav__sub li {
-  counter-increment: s;
-  display: grid;
-  grid-template-columns: 1.75rem 1fr;
-  gap: 0.5rem;
-  align-items: baseline;
-  margin-bottom: 0.5rem;
-}
+.nav__sub { margin-top: 0.5rem; }
+.nav__sub li { margin-bottom: 0.6rem; }
 .nav__sub li:last-child { margin-bottom: 0; }
-.nav__sub li::before { content: counter(s) "."; color: var(--faint); }
 
-/* Маркер пункта: уголок в обычном состоянии, галочка у выбранного.
-   Текст вынесен в отдельную ячейку, чтобы перенос строк шёл ровно. */
+/* Шеврон: вправо у обычного пункта, вниз у выбранного.
+   Рисуется двумя границами квадрата, а не символом шрифта —
+   так форма и толщина одинаковы везде. Текст вынесен в отдельную
+   ячейку сетки, чтобы перенос строк шёл ровно под первой строкой. */
 .nav__sub a {
   display: grid;
-  grid-template-columns: 0.85rem 1fr;
-  gap: 0.4rem;
-  align-items: baseline;
+  grid-template-columns: 0.9rem 1fr;
+  gap: 0.5rem;
+  align-items: start;
 }
-.nav__sub .mk { color: var(--faint); }
-.nav__sub .mk::before { content: "\203A"; }
-.nav__sub [aria-current="page"] .mk { color: var(--orange-d); }
-.nav__sub [aria-current="page"] .mk::before { content: "\2713"; }
+.nav__sub .mk { position: relative; height: 1.6em; }
+.nav__sub .mk::before {
+  content: "";
+  position: absolute;
+  left: 0.05rem;
+  top: 50%;
+  width: 0.34rem;
+  height: 0.34rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-60%) rotate(-45deg);
+}
+.nav__sub [aria-current="page"] .mk::before {
+  transform: translateY(-70%) rotate(45deg);
+}
 
 /* ——— типографика листа ——— */
 .page-title {
