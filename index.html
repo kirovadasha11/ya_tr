@@ -102,8 +102,10 @@ html.js .page.is-current { display: block; }
   gap: 0.5rem;
   align-items: start;
 }
+/* .mk без модификатора только резервирует колонку, чтобы текст
+   пунктов без подпунктов стоял на той же вертикали. */
 .nav__sub > li > a .mk { position: relative; height: 1.6em; }
-.nav__sub > li > a .mk::before {
+.nav__sub > li > a .mk--on::before {
   content: "";
   position: absolute;
   left: 0.05rem;
@@ -114,7 +116,7 @@ html.js .page.is-current { display: block; }
   border-bottom: 1.5px solid currentColor;
   transform: translateY(-60%) rotate(-45deg);
 }
-.nav__sub > li > a[aria-current="page"] .mk::before {
+.nav__sub > li > a[aria-current="page"] .mk--on::before {
   transform: translateY(-70%) rotate(45deg);
 }
 
@@ -308,7 +310,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
         <ol class="nav__sub">
           <li><a href="#intro"><span class="mk" aria-hidden="true"></span><span>Знакомство с Я.Трекером</span></a></li>
           <li>
-            <a href="#create"><span class="mk" aria-hidden="true"></span><span>Создание задачи и основные приёмы работы с ней<span class="badge">← подробная статья</span></span></a>
+            <a href="#create"><span class="mk mk--on" aria-hidden="true"></span><span>Создание задачи и основные приёмы работы с ней<span class="badge">← подробная статья</span></span></a>
             <ol class="nav__sub2">
               <li><a href="#create-new">Создание задачи</a></li>
               <li><a href="#create-handover">Передача задачи в работу</a></li>
