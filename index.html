@@ -28,12 +28,65 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+b { font-weight: 620; }
+
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--orange-d); }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+/* ——— раскладка ——— */
+.layout { display: grid; grid-template-columns: 17rem minmax(0, 1fr); align-items: start; }
+
+.side {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid var(--hair);
+  padding: clamp(3rem, 8vw, 5rem) 1.5rem 3rem;
+  font-size: 0.9875rem;
+  line-height: 1.6;
+}
+
+.main { min-width: 0; }
+
 .sheet {
   width: min(100% - 2.5rem, 720px);
   margin-inline: auto;
   padding-block: clamp(3rem, 8vw, 5rem) 4.5rem;
 }
 
+@media (max-width: 900px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .side {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--hair);
+    padding: 2rem 1.25rem;
+  }
+}
+
+/* ——— меню ——— */
+.nav, .nav__sub { list-style: none; margin: 0; padding: 0; }
+.nav > li { margin-bottom: 1rem; }
+.nav > li:last-child { margin-bottom: 0; }
+.nav a { display: block; }
+.nav [aria-current="page"] { color: var(--orange-d); font-weight: 620; }
+
+.nav__sub { counter-reset: s; margin-top: 0.5rem; }
+.nav__sub li {
+  counter-increment: s;
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+.nav__sub li:last-child { margin-bottom: 0; }
+.nav__sub li::before { content: counter(s) "."; color: var(--faint); }
+
+/* ——— типографика листа ——— */
 .page-title {
   font-size: clamp(1.9rem, 5vw, 2.6rem);
   font-weight: 600;
@@ -65,10 +118,7 @@ p:last-child { margin-bottom: 0; }
 
 .soft { color: var(--soft); }
 .term { color: var(--orange-d); font-weight: 620; }
-
-a { color: inherit; text-decoration: none; }
-a:hover { color: var(--orange-d); }
-:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.meta { color: var(--soft); font-size: 0.9875rem; margin: 0 0 1.75rem; }
 
 /* ——— призыв к действию ——— */
 .cta {
@@ -87,16 +137,18 @@ a:hover { color: var(--orange-d); }
 }
 .cta:hover { background: #FBE9D6; }
 
-/* ——— замечание ——— */
-.note {
+/* ——— вопрос → ответ, замечание ——— */
+.qa {
   display: grid;
   grid-template-columns: 1.75rem 1fr;
   gap: 0.5rem 0.75rem;
   align-items: baseline;
   margin: 1.75rem 0;
 }
-.note__mark { color: var(--orange); font-weight: 700; }
-.note__text { margin: 0; }
+.qa__mark { color: var(--orange); font-weight: 700; }
+.qa__q { margin: 0; font-weight: 620; }
+.qa__a { margin: 0; }
+.qa ul.plain { margin: 0; }
 
 /* ——— списки ——— */
 ul.plain { list-style: none; margin: 0 0 1.25rem; padding: 0; }
@@ -145,40 +197,6 @@ ol.plan a:hover b { color: var(--orange-d); }
   white-space: nowrap;
 }
 
-/* ——— служебная навигация статьи ——— */
-.back {
-  display: inline-block;
-  margin-bottom: 1.75rem;
-  color: var(--soft);
-  font-size: 0.9875rem;
-}
-.back:hover { color: var(--orange-d); }
-
-.pager {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--hair);
-  font-size: 0.9875rem;
-}
-.pager p { margin: 0 0 0.5rem; }
-.pager p:last-child { margin-bottom: 0; }
-.pager .lbl { color: var(--faint); }
-
-.meta { color: var(--soft); font-size: 0.9875rem; margin: 0 0 1.75rem; }
-
-/* ——— термины ——— */
-dl.terms { margin: 0 0 1.25rem; }
-dl.terms > div {
-  display: grid;
-  grid-template-columns: 1.25rem 1fr;
-  gap: 0.5rem;
-  align-items: baseline;
-  margin-bottom: 0.75rem;
-}
-dl.terms > div::before { content: "—"; color: var(--orange); }
-dl.terms dt { display: inline; font-weight: 620; }
-dl.terms dd { display: inline; margin: 0; }
-
 /* ——— таблица: только волосяные линии строк ——— */
 .tbl { overflow-x: auto; margin: 0 0 1.5rem; }
 table { border-collapse: collapse; width: 100%; font-size: 0.9875rem; line-height: 1.6; }
@@ -186,30 +204,32 @@ th, td { text-align: left; padding: 0.6rem 1rem 0.6rem 0; border-bottom: 1px sol
 th { font-weight: 620; color: var(--soft); }
 td:last-child, th:last-child { padding-right: 0; }
 
+/* ——— иллюстрации ——— */
+figure { margin: 1rem 0 1.2rem; text-align: center; }
+figure img { display: block; width: 100%; max-width: 23rem; height: auto; margin-inline: auto; }
+figcaption { font-size: 0.8125rem; color: var(--faint); margin-top: 0.35rem; }
+figcaption a { color: inherit; text-underline-offset: 0.2em; text-decoration: underline; }
+figcaption a:hover { color: var(--orange-d); }
+
 /* ——— схематичный макет интерфейса ——— */
-figure { margin: 1.5rem 0; }
-.ui {
-  border: 1px solid var(--hair);
-  padding: 0.9rem 1rem;
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
+.ui { border: 1px solid var(--hair); padding: 0.9rem 1rem; text-align: left; line-height: 1.6; }
 .ui__row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1rem; }
-@media (max-width: 620px) { .ui__row { grid-template-columns: 1fr; } }
 .ui__rail { border-right: 1px solid var(--hair); padding-right: 1rem; color: var(--soft); }
-@media (max-width: 620px) { .ui__rail { border-right: 0; border-bottom: 1px solid var(--hair); padding: 0 0 0.75rem; } }
 .ui__rail p { margin: 0 0 0.3rem; }
 .ui__line { border-bottom: 1px solid var(--hair); padding: 0.35rem 0; color: var(--soft); }
+.ui__line:last-child { border-bottom: 0; }
 .ui__line b { color: var(--ink); font-weight: 400; }
 .ui__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-@media (max-width: 620px) { .ui__cols { grid-template-columns: 1fr; } }
 .ui__col p { margin: 0 0 0.4rem; }
 .ui__col .h { color: var(--soft); border-bottom: 1px solid var(--hair); padding-bottom: 0.3rem; }
 .mark { color: var(--orange); font-weight: 700; }
 
-figcaption { font-size: 0.8125rem; color: var(--faint); margin-top: 0.5rem; }
+@media (max-width: 620px) {
+  .ui__row, .ui__cols { grid-template-columns: 1fr; }
+  .ui__rail { border-right: 0; border-bottom: 1px solid var(--hair); padding: 0 0 0.75rem; }
+}
 
-ol.callouts { list-style: none; margin: 0.75rem 0 0; padding: 0; counter-reset: c; }
+ol.callouts { list-style: none; margin: 0.75rem 0 0; padding: 0; counter-reset: c; text-align: left; }
 ol.callouts li {
   counter-increment: c;
   display: grid;
@@ -225,30 +245,64 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
 .foot { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--hair); color: var(--soft); font-size: 0.9875rem; }
 .foot a { color: var(--orange-d); }
 
-@media print { .sheet { width: 100%; padding: 0; } .cta, .back, .pager { display: none; } }
+@media print {
+  .layout { display: block; }
+  .side, .cta { display: none; }
+  .sheet { width: 100%; padding: 0; }
+}
 </style>
 </head>
 <body>
 
-<div class="sheet" id="sheet"></div>
+<div class="layout">
+  <nav class="side" aria-label="Разделы тестового задания">
+    <ul class="nav" id="nav"></ul>
+  </nav>
+  <div class="main">
+    <div class="sheet" id="sheet"></div>
+  </div>
+</div>
 
 <script>
 (function () {
   "use strict";
 
   var ARTICLES = [
-    { id: "model",  title: "Как устроена система",       time: "2 мин", desc: "Очереди, задачи и ключи" },
-    { id: "queue",  title: "Как найти свою очередь",     time: "2 мин", desc: "Поиск рабочего пространства команды" },
-    { id: "create", title: "Как создать и оформить задачу", time: "4 мин", desc: "Понятное название, критерии готовности и чеклист", full: true,
-      heading: "Создание задачи и основные приёмы работы с ней" },
-    { id: "assign", title: "Как передать задачу в работу", time: "3 мин", desc: "Назначение исполнителя и установка сроков" },
-    { id: "track",  title: "Как отслеживать статус",      time: "4 мин", desc: "Доски и списки задач" }
+    { id: "intro",  title: "Знакомство с Яндекс.Трекером", time: "3 мин",
+      desc: "Что такое очередь, задача, статус" },
+    { id: "create", title: "Создание задачи и основные приёмы работы с ней", time: "6 мин",
+      desc: "Понятное название, критерии готовности, чеклист", full: true },
+    { id: "search", title: "Поиск и организация работы", time: "4 мин",
+      desc: "Поиск задач, фильтры, списки и доски" },
+    { id: "extra",  title: "Дополнительные возможности", time: "2 мин",
+      desc: "Шаблоны, автоматизация, расширенные настройки" }
   ];
 
   var sheet = document.getElementById("sheet");
+  var nav   = document.getElementById("nav");
+
+  /* ------------------------------------------------------------- меню */
+  function buildNav() {
+    var sub = ARTICLES.map(function (a) {
+      return '<li><a href="#' + a.id + '" data-go="' + a.id + '">' + a.title +
+             (a.full ? '<span class="badge">подробная статья</span>' : '') + '</a></li>';
+    }).join("");
+
+    nav.innerHTML =
+      '<li><a href="#analysis" data-go="analysis">Анализ задачи и проектирование решения</a></li>' +
+      '<li><a href="#" data-go="home">Быстрый старт в Я.Трекере для аналитика</a>' +
+      '<ol class="nav__sub">' + sub + '</ol></li>';
+  }
+
+  function markNav(id) {
+    Array.prototype.forEach.call(nav.querySelectorAll("a"), function (a) {
+      if (a.dataset.go === id) { a.setAttribute("aria-current", "page"); }
+      else { a.removeAttribute("aria-current"); }
+    });
+  }
 
   /* ---------------------------------------------------------- главная */
-  function landing() {
+  function home() {
     var items = ARTICLES.map(function (a) {
       return '<li><a href="#' + a.id + '" data-go="' + a.id + '">' +
              '<b' + (a.full ? ' class="strong"' : '') + '>' + a.title +
@@ -258,34 +312,91 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
     }).join("");
 
     return '<h1 class="page-title">Быстрый старт в Я.Трекере для аналитика</h1>' +
-      '<p>Пять коротких статей, чтобы за 15 минут поставить первую задачу ' +
-      'без погружения в настройки.</p>' +
-      '<button type="button" class="cta" data-go="model">Начать чтение</button>' +
+      '<p><b>Пятнадцать минут — и первая задача поставлена.</b></p>' +
+      '<button type="button" class="cta" data-go="intro">Начать чтение</button>' +
       '<h2><span class="num">1</span><span>Статьи раздела</span></h2>' +
       '<ol class="plan">' + items + '</ol>' +
       '<p class="foot">Нужно настроить права или интеграции? ' +
       '<a href="https://yandex.ru/support/tracker/">Перейти к полной справке Трекера</a></p>';
   }
 
+  /* ------------------------------------------------------ анализ задачи */
+  function analysis() {
+    return [
+      '<h1 class="page-title">Анализ задачи и проектирование решения</h1>',
+
+      '<h2><span class="num">1</span><span>Подход к выполнению задания</span></h2>',
+      '<p>При проектировании стартового раздела рассматривались два принципа организации материала:</p>',
+      '<ul class="plain">',
+      '<li><span><b class="term">Функциональный подход</b>: построение документации вокруг возможностей ',
+      'системы — очередей, задач, статусов и других функций</span></li>',
+      '<li><span><b class="term">Сценарный подход</b>: по рабочим сценариям пользователя — обучение ',
+      'через выполнение типовых рабочих задач</span></li>',
+      '</ul>',
+      '<p>Для стартового раздела выбран <b>комбинированный подход</b>: в основу положен ключевой ',
+      'рабочий сценарий пользователя, а остальные статьи раскрывают функциональность, ',
+      'необходимую для его выполнения.</p>',
+
+      '<h2><span class="num">2</span><span>Изучение целевой аудитории</span></h2>',
+      '<p>Для изучения целевой аудитории был проанализирован типовой рабочий процесс ',
+      'бизнес-аналитика. В общих чертах круг его задач выглядит так:</p>',
+      '<figure>',
+      '<img src="biznes-analitik-768x768.png" alt="Схема: в центре бизнес-аналитик, вокруг восемь ',
+      'обязанностей — найти новую проблему, провести анализ, предложить решение руководству и ',
+      'согласовать, написать требования продукта, дать задачу разработчикам и дизайнерам, ',
+      'контролировать сроки и качество, исправить косяки, предложить бизнесу готовое решение">',
+      '<figcaption>Иллюстрация — <a href="https://kinzhal.media/business-analyst/">Кинжал</a></figcaption>',
+      '</figure>',
+      '<p>По результатам анализа были сформулированы два ключевых вопроса, определяющих ',
+      'содержание стартового раздела.</p>',
+      '<div class="qa">',
+      '<span class="qa__mark" aria-hidden="true">?</span>',
+      '<p class="qa__q">Зачем бизнес-аналитику Я.Трекер?</p>',
+      '<span class="qa__mark" aria-hidden="true">→</span>',
+      '<p class="qa__a">Оформить и сопровождать требование заказчика в виде задачи.</p>',
+      '</div>',
+      '<div class="qa">',
+      '<span class="qa__mark" aria-hidden="true">?</span>',
+      '<p class="qa__q">Какой функционал Я.Трекера необходим для решения этой задачи?</p>',
+      '<span class="qa__mark" aria-hidden="true">→</span>',
+      '<ul class="plain">',
+      '<li><span>работа с очередью проекта;</span></li>',
+      '<li><span>создание и описание задачи;</span></li>',
+      '<li><span>назначение исполнителя и управление участниками;</span></li>',
+      '<li><span>отслеживание выполнения задачи.</span></li>',
+      '</ul>',
+      '</div>',
+      '<p>Ответ на второй вопрос лёг в основу структуры стартового раздела.</p>',
+
+      '<h2><span class="num">3</span><span>Структура стартового раздела</span></h2>',
+      '<ol class="plan">',
+      ARTICLES.map(function (a) {
+        return '<li><span><b' + (a.full ? ' class="strong"' : '') + '>' + a.title +
+               (a.full ? '<span class="badge">подробная статья</span>' : '') + '</b>' +
+               '<span class="desc">' + a.desc + '</span></span></li>';
+      }).join(""),
+      '</ol>'
+    ].join("");
+  }
+
   /* ---------------------------------------------------- полная статья */
   function full() {
     return [
-      '<a href="#" class="back" data-home>← Все статьи</a>',
       '<h1 class="page-title">Создание задачи и основные приёмы работы с ней</h1>',
-      '<p class="meta">4 минуты · Нужен доступ в Я.Трекер и название очереди команды</p>',
+      '<p class="meta">6 минут · Нужен доступ в Я.Трекер и название очереди команды</p>',
 
       '<p>Задача — основная единица работы в Я.Трекере. Всё, что происходит по проекту, ',
       'происходит внутри задач: в них ставят работу, обсуждают решения и фиксируют результат. ',
       'Статья показывает, как создать задачу, пригодную к исполнению, и что делать с ней дальше.</p>',
 
       '<h2><span class="num">1</span><span>Термины</span></h2>',
-      '<dl class="terms">',
-      '<div><dt>Очередь</dt><dd> — рабочее пространство команды. Каждая задача принадлежит одной очереди; задач вне очереди не бывает.</dd></div>',
-      '<div><dt>Ключ задачи</dt><dd> — постоянный идентификатор вида ANL-14: код очереди и порядковый номер. Служит адресом задачи в переписке и документах.</dd></div>',
-      '<div><dt>Статус</dt><dd> — положение задачи в рабочем процессе. Адресован команде, а не автору: по нему коллеги понимают, чего от задачи ждать.</dd></div>',
-      '<div><dt>Исполнитель</dt><dd> — сотрудник, отвечающий за выполнение. У задачи он один.</dd></div>',
-      '<div><dt>Наблюдатель</dt><dd> — сотрудник, получающий уведомления об изменениях, но не отвечающий за задачу.</dd></div>',
-      '</dl>',
+      '<ul class="plain">',
+      '<li><span><b>Очередь</b> — рабочее пространство команды. Каждая задача принадлежит одной очереди; задач вне очереди не бывает.</span></li>',
+      '<li><span><b>Ключ задачи</b> — постоянный идентификатор вида ANL-14: код очереди и порядковый номер. Служит адресом задачи в переписке и документах.</span></li>',
+      '<li><span><b>Статус</b> — положение задачи в рабочем процессе. Адресован команде, а не автору: по нему коллеги понимают, чего от задачи ждать.</span></li>',
+      '<li><span><b>Исполнитель</b> — сотрудник, отвечающий за выполнение. У задачи он один.</span></li>',
+      '<li><span><b>Наблюдатель</b> — сотрудник, получающий уведомления об изменениях, но не отвечающий за задачу.</span></li>',
+      '</ul>',
 
       '<h2><span class="num">2</span><span>Откройте форму создания задачи</span></h2>',
       '<p>Кнопка <b>Создать задачу</b> находится в левом меню и доступна с любой страницы — ',
@@ -308,15 +419,15 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
       '<li>Раздел <b>Очереди</b> — выбор рабочего пространства команды. Ниже: «Задачи», «Доски задач», «Дашборды».</li>',
       '</ol>',
       '</figure>',
-      '<div class="note"><span class="note__mark" aria-hidden="true">!</span>',
-      '<p class="note__text">Если очередь команды уже открыта, задача создаётся прямо из неё — ',
+      '<div class="qa"><span class="qa__mark" aria-hidden="true">!</span>',
+      '<p class="qa__a">Если очередь команды уже открыта, задача создаётся прямо из неё — ',
       'очередь подставится в форму автоматически.</p></div>',
 
       '<h2><span class="num">3</span><span>Проверьте очередь</span></h2>',
       '<p>В верхней части формы указана очередь, в которой будет создана задача. ',
       'Если подставилась не та — смените её здесь же, до создания.</p>',
-      '<div class="note"><span class="note__mark" aria-hidden="true">!</span>',
-      '<p class="note__text">Ключ задачи формируется из кода очереди и после создания не меняется. ',
+      '<div class="qa"><span class="qa__mark" aria-hidden="true">!</span>',
+      '<p class="qa__a">Ключ задачи формируется из кода очереди и после создания не меняется. ',
       'Перенести задачу в другую очередь можно, но она получит новый ключ, а ссылки со старым ',
       'перестанут её открывать.</p></div>',
 
@@ -367,13 +478,14 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
       '<tr><td>Дедлайн</td><td>Дата завершения работы</td><td>Если срок реально существует</td></tr>',
       '<tr><td>Исполнитель</td><td>Тот, кто отвечает за выполнение</td><td>Всегда</td></tr>',
       '</tbody></table></div>',
-      '<div class="note"><span class="note__mark" aria-hidden="true">!</span>',
-      '<p class="note__text">Дедлайн, поставленный «на всякий случай», через месяц делает просроченной ',
+      '<div class="qa"><span class="qa__mark" aria-hidden="true">!</span>',
+      '<p class="qa__a">Дедлайн, поставленный «на всякий случай», через месяц делает просроченной ',
       'половину очереди — и поле перестаёт что-либо значить для команды.</p></div>',
 
       '<h2><span class="num">6</span><span>Создайте задачу</span></h2>',
       '<p>Нажмите <b>Создать задачу</b>. Задача получит постоянный ключ вида ANL-14 и начальный ',
-      'статус рабочего процесса, исполнитель и наблюдатели получат уведомление, откроется карточка задачи.</p>',
+      'статус рабочего процесса, исполнитель и наблюдатели получат уведомление, ',
+      'откроется карточка задачи.</p>',
 
       '<h2><span class="num">7</span><span>Основные приёмы работы</span></h2>',
       '<ul class="plain">',
@@ -400,67 +512,52 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
       '<tr><td>Обсуждение ушло в мессенджер</td><td>Решение принято, обоснование потеряно</td><td>Итог переносить в комментарий задачи</td></tr>',
       '<tr><td>Задача заведена повторно</td><td>Две задачи об одном, у каждой свой кусок истории</td><td>Перед созданием искать по ключевому слову</td></tr>',
       '<tr><td>Статус не меняется неделями</td><td>Команда считает работу незапущенной</td><td>Переводить в «В работе» в день начала</td></tr>',
-      '</tbody></table></div>',
-
-      '<div class="pager" id="pager"></div>'
+      '</tbody></table></div>'
     ].join("");
   }
 
   /* -------------------------------------------------------- заглушка */
   function stub(a, i) {
-    return '<a href="#" class="back" data-home>← Все статьи</a>' +
-      '<h1 class="page-title">' + a.title + '</h1>' +
+    return '<h1 class="page-title">' + a.title + '</h1>' +
       '<p class="meta">' + a.time + ' · Статья ' + (i + 1) + ' из ' + ARTICLES.length + '</p>' +
       '<p>' + a.desc + '.</p>' +
       '<p class="soft">Текст статьи в подготовке. В прототипе полностью написана статья ' +
-      '<a href="#create" data-go="create"><b>«Создание задачи и основные приёмы работы с ней»</b></a>.</p>' +
-      '<div class="pager" id="pager"></div>';
+      '<a href="#create" data-go="create"><b>«Создание задачи и основные приёмы работы с ней»</b></a>.</p>';
   }
 
-  function pager(i) {
-    var out = "";
-    if (ARTICLES[i - 1]) {
-      out += '<p><span class="lbl">Предыдущая: </span><a href="#' + ARTICLES[i - 1].id +
-             '" data-go="' + ARTICLES[i - 1].id + '">' + ARTICLES[i - 1].title + '</a></p>';
+  /* ------------------------------------------------------------ показ */
+  function render(id) {
+    if (id === "analysis") {
+      sheet.innerHTML = analysis();
+      document.title = "Анализ задачи и проектирование решения";
+    } else if (id === "home") {
+      sheet.innerHTML = home();
+      document.title = "Быстрый старт в Я.Трекере для аналитика";
+    } else {
+      var i = 0;
+      ARTICLES.forEach(function (a, n) { if (a.id === id) { i = n; } });
+      var a = ARTICLES[i];
+      sheet.innerHTML = a.full ? full() : stub(a, i);
+      document.title = a.title + " · Быстрый старт в Я.Трекере";
     }
-    if (ARTICLES[i + 1]) {
-      out += '<p><span class="lbl">Следующая: </span><a href="#' + ARTICLES[i + 1].id +
-             '" data-go="' + ARTICLES[i + 1].id + '">' + ARTICLES[i + 1].title + '</a></p>';
-    }
-    return out;
-  }
-
-  function show(id) {
-    var i = 0;
-    ARTICLES.forEach(function (a, n) { if (a.id === id) { i = n; } });
-    var a = ARTICLES[i];
-    sheet.innerHTML = a.full ? full() : stub(a, i);
-    var p = document.getElementById("pager");
-    if (p) { p.innerHTML = pager(i); }
-    document.title = (a.heading || a.title) + " · Быстрый старт в Я.Трекере";
-    window.scrollTo(0, 0);
-  }
-
-  function home() {
-    sheet.innerHTML = landing();
-    document.title = "Быстрый старт в Я.Трекере для аналитика";
+    markNav(id);
     window.scrollTo(0, 0);
   }
 
   document.addEventListener("click", function (e) {
-    var back = e.target.closest("[data-home]");
-    if (back) { e.preventDefault(); history.replaceState(null, "", "#"); home(); return; }
-
     var go = e.target.closest("[data-go]");
-    if (go) {
-      e.preventDefault();
-      history.replaceState(null, "", "#" + go.dataset.go);
-      show(go.dataset.go);
-    }
+    if (!go) { return; }
+    e.preventDefault();
+    var id = go.dataset.go;
+    history.replaceState(null, "", id === "home" ? "#" : "#" + id);
+    render(id);
   });
 
+  buildNav();
+
   var hash = window.location.hash.replace("#", "");
-  if (ARTICLES.some(function (a) { return a.id === hash; })) { show(hash); } else { home(); }
+  var known = hash === "analysis" || ARTICLES.some(function (a) { return a.id === hash; });
+  render(known ? hash : "home");
 })();
 </script>
 
