@@ -132,26 +132,13 @@ p:last-child { margin-bottom: 0; }
 .term { color: var(--orange-d); font-weight: 620; }
 .meta { color: var(--soft); font-size: 0.9875rem; margin: 0 0 1.75rem; }
 
-/* ——— призыв к действию ——— */
-.cta {
-  display: inline-block;
-  margin: 1.5rem 0 0.9rem;
-  padding: 0.35rem 1.1rem;
-  border-radius: 999px;
-  background: var(--orange-s);
-  color: var(--orange-d);
-  font-weight: 620;
-  white-space: nowrap;
-}
-.cta:hover { background: #FBE9D6; color: var(--orange-d); }
-
 /* ——— плашка в рамке ———
    Второй абзац оформлен через p + p, а не отдельным классом:
    иначе .panel p перебивал бы его по специфичности. */
 .panel {
   border: 1px solid var(--hair);
   padding: 1.1rem 1.25rem;
-  margin: 0 0 0.5rem;
+  margin: 0 0 2rem;
 }
 .panel p { margin: 0; }
 .panel p + p {
@@ -267,7 +254,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
 
 @media print {
   .layout { display: block; }
-  .side, .cta { display: none; }
+  .side { display: none; }
   .sheet { width: 100%; padding: 0; }
   html.js .page { display: block; }
 }
@@ -304,8 +291,6 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
           <p><b>Пятнадцать минут — и первая задача поставлена</b></p>
           <p>Начните с устройства системы или сразу переходите к созданию задачи.</p>
         </div>
-
-        <p><a class="cta" href="#intro">Начать чтение</a></p>
 
         <ol class="plan">
           <li><a href="#intro">
