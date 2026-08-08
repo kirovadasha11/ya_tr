@@ -52,9 +52,10 @@ a:hover { color: var(--orange-d); }
 
 .side {
   position: sticky;
-  top: 32px;
+  top: 52px;
   align-self: start;
-  max-height: calc(100vh - 64px);
+  margin-top: 52px;
+  max-height: calc(100vh - 84px);
   overflow-y: auto;
   padding-bottom: 2rem;
   font-size: 0.9875rem;
@@ -69,6 +70,7 @@ a:hover { color: var(--orange-d); }
   .layout { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding: 28px 20px 0; }
   .side {
     position: static;
+    margin-top: 0;
     max-height: none;
     padding-bottom: 2rem;
     border-bottom: 1px solid var(--hair);
@@ -405,7 +407,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
         <ol class="nav__sub">
           <li><a href="#intro"><span class="mk" aria-hidden="true"></span><span>Знакомство с Я.Трекером</span></a></li>
           <li>
-            <a href="#create"><span class="mk mk--on" aria-hidden="true"></span><span>Создание задачи и полный цикл её сопровождения<span class="badge">← подробная статья</span></span></a>
+            <a href="#create"><span class="mk mk--on" aria-hidden="true"></span><span>Создание задачи и основные приёмы работы с ней<span class="badge">← подробная статья</span></span></a>
             <ol class="nav__sub2">
               <li><a href="#create-new">Создание задачи</a></li>
               <li><a href="#create-handover">Передача в работу</a></li>
@@ -582,7 +584,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
             <span class="desc">Понять основные понятия и устройство системы</span>
           </span></li>
           <li><span>
-            <b class="strong">Создание задачи и полный цикл её сопровождения<span class="badge">← подробная статья</span></b>
+            <b class="strong">Создание задачи и основные приёмы работы с ней<span class="badge">← подробная статья</span></b>
             <span class="desc">Создать первую задачу, оформить требования и передать в работу</span>
           </span></li>
           <li><span>
@@ -610,8 +612,8 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
       </article>
 
       <!-- ============================================ статья 2 -->
-      <article class="page" id="create" data-title="Создание задачи и полный цикл её сопровождения">
-        <h1 class="page-title">Создание задачи и полный цикл её сопровождения</h1>
+      <article class="page" id="create" data-title="Создание задачи и основные приёмы работы с ней">
+        <h1 class="page-title">Создание задачи и основные приёмы работы с ней</h1>
         <p class="meta">6 мин · Статья 2 из 4 · Нужен доступ в Я.Трекер и имя очереди</p>
         <p><b>Результат:</b> создать первую задачу, оформить требования
           и передать в работу.</p>
