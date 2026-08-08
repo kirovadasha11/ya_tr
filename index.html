@@ -208,35 +208,74 @@ p:last-child { margin-bottom: 0; }
   color: var(--soft);
 }
 
-/* ——— карточки статей ——— */
-.cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
-.card {
+/* ——— роадмап ———
+   Кружок с номером стоит в первой колонке сетки, направляющая линия
+   рисуется псевдоэлементом каждого шага и уходит за нижний край,
+   перекрывая промежуток до следующего. У последнего шага снимается. */
+.road { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+
+.road__item {
+  position: relative;
   display: grid;
-  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
-  gap: 0 1.1rem;
+  grid-template-columns: 2.3rem minmax(0, 1fr);
+  gap: 0 1rem;
   align-items: start;
+}
+.road__item::before {
+  content: "";
+  position: absolute;
+  left: calc(1.15rem - 1px);
+  top: 2.6rem;
+  bottom: -1.2rem;
+  width: 2px;
+  background: var(--card-line);
+}
+.road__item:last-child::before { display: none; }
+
+.road__num {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  border: 1px solid var(--card-line);
+  border-radius: 50%;
+  background: #fff;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--orange);
+}
+
+.step {
+  display: block;
   border: 1px solid var(--card-line);
   border-radius: 12px;
-  padding: 1.1rem 1.3rem;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  padding: 0.95rem 1.2rem 1.05rem;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
 }
-.card:hover { border-color: var(--orange); background: var(--orange-s); color: inherit; }
-.card__num {
-  font-size: 1.3rem;
-  font-weight: 700;
-  line-height: 1.45;
-  color: var(--orange);
-  opacity: 0.4;
+.step:hover {
+  border-color: var(--orange);
+  background: var(--orange-s);
+  color: inherit;
+  transform: translateX(2px);
 }
-.card__title { display: block; font-weight: 620; }
-.card__desc {
-  display: block;
-  margin-top: 0.1rem;
-  color: var(--soft);
-  font-size: 0.9875rem;
-  line-height: 1.6;
+
+.step__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem 0.75rem;
 }
-.card__tags { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.step__title { font-weight: 620; }
+.step__meta { display: flex; align-items: baseline; gap: 0.4rem; }
+.step__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.7rem; }
+
+/* Сквозной сценарий выделен постоянно, а не только при наведении */
+.road__item--key > .road__num { border-color: var(--orange); background: var(--orange-s); }
+.road__item--key .step { border-color: var(--orange); background: var(--orange-s); }
+.road__item--key .step:hover { border-color: var(--orange-d); }
 
 .tag {
   display: inline-block;
@@ -249,10 +288,12 @@ p:last-child { margin-bottom: 0; }
   white-space: nowrap;
 }
 .tag--accent { border-color: transparent; background: var(--orange-s); color: var(--orange-d); }
+.road__item--key .tag { border-color: #F0DCC4; }
+.road__item--key .tag--accent { border-color: transparent; background: #fff; }
 
-@media (max-width: 620px) {
-  .card { grid-template-columns: 2.2rem minmax(0, 1fr); }
-  .card__tags { grid-column: 2; margin-top: 0.6rem; justify-content: flex-start; }
+@media (prefers-reduced-motion: reduce) {
+  .step { transition: none; }
+  .step:hover { transform: none; }
 }
 
 /* ——— вопрос → ответ, замечание ——— */
@@ -404,51 +445,74 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
           до первой поставленной задачи за 15 минут.</p>
         <ul class="chips">
           <li class="chip">⏱ ~15 минут на прохождение</li>
-          <li class="chip">📚 4 короткие статьи</li>
+          <li class="chip">📚 4 шага</li>
         </ul>
 
-        <ol class="cards">
-        <li><a class="card" href="#intro">
-          <span class="card__num" aria-hidden="true">01</span>
-          <span>
-            <span class="card__title">Знакомство с Я.Трекером</span>
-            <span class="card__desc">Понять основные понятия и устройство системы: очереди, задачи и статусы.</span>
-          </span>
-          <span class="card__tags">
-            <span class="tag">3 мин</span>
-          </span>
-        </a></li>
-        <li><a class="card" href="#create">
-          <span class="card__num" aria-hidden="true">02</span>
-          <span>
-            <span class="card__title">Создание задачи и полный цикл её сопровождения</span>
-            <span class="card__desc">Создать первую задачу, оформить требования, передать в работу и закрыть по критериям готовности.</span>
-          </span>
-          <span class="card__tags">
-            <span class="tag tag--accent">Сквозной сценарий</span>
-            <span class="tag">6 мин</span>
-          </span>
-        </a></li>
-        <li><a class="card" href="#search">
-          <span class="card__num" aria-hidden="true">03</span>
-          <span>
-            <span class="card__title">Поиск задач и работа с досками</span>
-            <span class="card__desc">Быстро находить любую задачу, настраивать фильтры и контролировать работу на Agile-досках.</span>
-          </span>
-          <span class="card__tags">
-            <span class="tag">4 мин</span>
-          </span>
-        </a></li>
-        <li><a class="card" href="#extra">
-          <span class="card__num" aria-hidden="true">04</span>
-          <span>
-            <span class="card__title">Быстрые приёмы и шаблоны</span>
-            <span class="card__desc">Сократить количество рутинных действий с помощью шаблонов и горячих клавиш.</span>
-          </span>
-          <span class="card__tags">
-            <span class="tag">2 мин</span>
-          </span>
-        </a></li>
+        <ol class="road">
+        <li class="road__item">
+          <span class="road__num" aria-hidden="true">01</span>
+          <a class="step" href="#intro">
+            <span class="step__head">
+              <span class="step__title">Понять устройство Я.Трекера</span>
+              <span class="step__meta">
+                <span class="tag">⏱ 3 мин</span>
+              </span>
+            </span>
+            <span class="step__tags">
+            <span class="tag">Очереди и ключи</span>
+            <span class="tag">Статусы</span>
+            <span class="tag">Роли</span>
+            </span>
+          </a>
+        </li>
+        <li class="road__item road__item--key">
+          <span class="road__num" aria-hidden="true">02</span>
+          <a class="step" href="#create">
+            <span class="step__head">
+              <span class="step__title">Создать и провести задачу по циклу</span>
+              <span class="step__meta">
+                <span class="tag tag--accent">Сквозной сценарий</span>
+                <span class="tag">⏱ 6 мин</span>
+              </span>
+            </span>
+            <span class="step__tags">
+            <span class="tag">Оформление требований</span>
+            <span class="tag">Передача в работу</span>
+            <span class="tag">Приёмка и закрытие</span>
+            </span>
+          </a>
+        </li>
+        <li class="road__item">
+          <span class="road__num" aria-hidden="true">03</span>
+          <a class="step" href="#search">
+            <span class="step__head">
+              <span class="step__title">Настроить поиск и отслеживание задач</span>
+              <span class="step__meta">
+                <span class="tag">⏱ 4 мин</span>
+              </span>
+            </span>
+            <span class="step__tags">
+            <span class="tag">Быстрый поиск</span>
+            <span class="tag">Фильтры и списки</span>
+            <span class="tag">Agile-доски</span>
+            </span>
+          </a>
+        </li>
+        <li class="road__item">
+          <span class="road__num" aria-hidden="true">04</span>
+          <a class="step" href="#extra">
+            <span class="step__head">
+              <span class="step__title">Оптимизировать рутинные действия</span>
+              <span class="step__meta">
+                <span class="tag">⏱ 2 мин</span>
+              </span>
+            </span>
+            <span class="step__tags">
+            <span class="tag">Шаблоны требований</span>
+            <span class="tag">Горячие клавиши</span>
+            </span>
+          </a>
+        </li>
         </ol>
       </article>
 
