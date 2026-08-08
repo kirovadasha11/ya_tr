@@ -13,6 +13,7 @@
   --orange:   #E8862A;
   --orange-d: #B9651A;
   --orange-s: #FDF3E9;
+  --card-line: #E5E7EB;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -35,7 +36,7 @@ a:hover { color: var(--orange-d); }
 :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 
 /* ——— раскладка ——— */
-.layout { display: grid; grid-template-columns: 17rem minmax(0, 1fr); align-items: start; }
+.layout { display: grid; grid-template-columns: 15.5rem minmax(0, 1fr); align-items: start; }
 
 .side {
   position: sticky;
@@ -43,7 +44,7 @@ a:hover { color: var(--orange-d); }
   height: 100vh;
   overflow-y: auto;
   border-right: 1px solid var(--hair);
-  padding: clamp(3rem, 8vw, 5rem) 1.5rem 3rem;
+  padding: clamp(2.75rem, 6vw, 4rem) 1.25rem 3rem;
   font-size: 0.9875rem;
   line-height: 1.6;
 }
@@ -51,9 +52,9 @@ a:hover { color: var(--orange-d); }
 .main { min-width: 0; }
 
 .sheet {
-  width: min(100% - 2.5rem, 720px);
-  margin-inline: auto;
-  padding-block: clamp(3rem, 8vw, 5rem) 4.5rem;
+  width: 100%;
+  max-width: 800px;
+  padding: clamp(2.75rem, 6vw, 4rem) clamp(1.25rem, 3.5vw, 2.75rem) 4.5rem;
 }
 
 @media (max-width: 900px) {
@@ -84,7 +85,25 @@ html.js .page.is-current { display: block; }
 .nav > li { margin-bottom: 1rem; }
 .nav > li:last-child { margin-bottom: 0; }
 .nav a { display: block; }
-.nav [aria-current="page"] { color: var(--orange-d); font-weight: 620; }
+.nav a[aria-current="page"] {
+  position: relative;
+  margin-left: -0.85rem;
+  padding: 0.25rem 0.6rem 0.25rem 0.85rem;
+  border-radius: 8px;
+  background: var(--orange-s);
+  color: var(--orange-d);
+  font-weight: 620;
+}
+.nav a[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: 0.3rem;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--orange);
+}
 
 .nav__sub { margin-top: 0.5rem; }
 .nav__sub > li { margin-bottom: 0.6rem; }
@@ -167,23 +186,63 @@ p:last-child { margin-bottom: 0; }
 .term { color: var(--orange-d); font-weight: 620; }
 .meta { color: var(--soft); font-size: 0.9875rem; margin: 0 0 1.75rem; }
 
-/* ——— плашка в рамке ———
-   Второй абзац оформлен через p + p, а не отдельным классом:
-   иначе .panel p перебивал бы его по специфичности. */
-.panel {
-  max-width: 35rem;
-  border: 1px solid var(--hair);
-  border-radius: 10px;
-  background: var(--orange-s);
-  padding: 1.1rem 1.25rem;
-  margin: 0 0 2rem;
+/* ——— шапка главной ——— */
+.lede { color: var(--soft); margin: -0.5rem 0 1.4rem; max-width: 44rem; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 0 0 2.5rem; padding: 0; }
+.chip {
+  border: 1px solid var(--card-line);
+  border-radius: 999px;
+  padding: 0.2rem 0.85rem;
+  font-size: 0.9375rem;
+  color: var(--soft);
 }
-.panel p { margin: 0; }
-.panel p + p {
-  margin-top: 0.3rem;
+
+/* ——— карточки статей ——— */
+.cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+.card {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  gap: 0 1.1rem;
+  align-items: start;
+  border: 1px solid var(--card-line);
+  border-radius: 12px;
+  padding: 1.1rem 1.3rem;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.card:hover { border-color: var(--orange); background: var(--orange-s); color: inherit; }
+.card__num {
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--orange);
+  opacity: 0.4;
+}
+.card__title { display: block; font-weight: 620; }
+.card__desc {
+  display: block;
+  margin-top: 0.1rem;
   color: var(--soft);
   font-size: 0.9875rem;
   line-height: 1.6;
+}
+.card__tags { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+
+.tag {
+  display: inline-block;
+  border: 1px solid var(--card-line);
+  border-radius: 999px;
+  padding: 0.02rem 0.6rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--soft);
+  white-space: nowrap;
+}
+.tag--accent { border-color: transparent; background: var(--orange-s); color: var(--orange-d); }
+
+@media (max-width: 620px) {
+  .card { grid-template-columns: 2.2rem minmax(0, 1fr); }
+  .card__tags { grid-column: 2; margin-top: 0.6rem; justify-content: flex-start; }
 }
 
 /* ——— вопрос → ответ, замечание ——— */
@@ -311,7 +370,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
         <ol class="nav__sub">
           <li><a href="#intro"><span class="mk" aria-hidden="true"></span><span>Знакомство с Я.Трекером</span></a></li>
           <li>
-            <a href="#create"><span class="mk mk--on" aria-hidden="true"></span><span>Создание задачи и основные приёмы работы<span class="badge">← подробная статья</span></span></a>
+            <a href="#create"><span class="mk mk--on" aria-hidden="true"></span><span>Создание задачи и полный цикл её сопровождения<span class="badge">← подробная статья</span></span></a>
             <ol class="nav__sub2">
               <li><a href="#create-new">Создание задачи</a></li>
               <li><a href="#create-handover">Передача в работу</a></li>
@@ -331,29 +390,55 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
       <!-- ============================================ главная -->
       <article class="page" id="home" data-title="Быстрый старт в Я.Трекере для бизнес-аналитика">
         <h1 class="page-title">Быстрый старт в Я.Трекере для бизнес-аналитика</h1>
+        <p class="lede">Четыре статьи, которые доводят нового бизнес-аналитика
+          до первой поставленной задачи за 15 минут.</p>
+        <ul class="chips">
+          <li class="chip">⏱ ~15 минут на прохождение</li>
+          <li class="chip">📚 4 короткие статьи</li>
+        </ul>
 
-        <div class="panel">
-          <p><b>Пятнадцать минут — и первая задача поставлена</b></p>
-          <p>Начните с устройства системы или сразу переходите к созданию задачи.</p>
-        </div>
-
-        <ol class="plan">
-          <li><a href="#intro">
-            <b>Знакомство с Я.Трекером</b>
-            <span class="desc">3 мин · Понять основные понятия и устройство системы</span>
-          </a></li>
-          <li><a href="#create">
-            <b class="strong">Создание задачи и основные приёмы работы<span class="badge">← подробная статья</span></b>
-            <span class="desc">6 мин · Создать первую задачу, оформить требования и передать в работу</span>
-          </a></li>
-          <li><a href="#search">
-            <b>Поиск задач и работа с досками</b>
-            <span class="desc">4 мин · Быстро находить любую задачу и контролировать работу команды</span>
-          </a></li>
-          <li><a href="#extra">
-            <b>Быстрые приёмы и шаблоны</b>
-            <span class="desc">2 мин · Сократить количество рутинных действий</span>
-          </a></li>
+        <ol class="cards">
+        <li><a class="card" href="#intro">
+          <span class="card__num" aria-hidden="true">01</span>
+          <span>
+            <span class="card__title">Знакомство с Я.Трекером</span>
+            <span class="card__desc">Понять основные понятия и устройство системы: очереди, задачи и статусы.</span>
+          </span>
+          <span class="card__tags">
+            <span class="tag">3 мин</span>
+          </span>
+        </a></li>
+        <li><a class="card" href="#create">
+          <span class="card__num" aria-hidden="true">02</span>
+          <span>
+            <span class="card__title">Создание задачи и полный цикл её сопровождения</span>
+            <span class="card__desc">Создать первую задачу, оформить требования, передать в работу и закрыть по критериям готовности.</span>
+          </span>
+          <span class="card__tags">
+            <span class="tag tag--accent">Сквозной сценарий</span>
+            <span class="tag">6 мин</span>
+          </span>
+        </a></li>
+        <li><a class="card" href="#search">
+          <span class="card__num" aria-hidden="true">03</span>
+          <span>
+            <span class="card__title">Поиск задач и работа с досками</span>
+            <span class="card__desc">Быстро находить любую задачу, настраивать фильтры и контролировать работу на Agile-досках.</span>
+          </span>
+          <span class="card__tags">
+            <span class="tag">4 мин</span>
+          </span>
+        </a></li>
+        <li><a class="card" href="#extra">
+          <span class="card__num" aria-hidden="true">04</span>
+          <span>
+            <span class="card__title">Быстрые приёмы и шаблоны</span>
+            <span class="card__desc">Сократить количество рутинных действий с помощью шаблонов и горячих клавиш.</span>
+          </span>
+          <span class="card__tags">
+            <span class="tag">2 мин</span>
+          </span>
+        </a></li>
         </ol>
       </article>
 
@@ -412,7 +497,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
             <span class="desc">Понять основные понятия и устройство системы</span>
           </span></li>
           <li><span>
-            <b class="strong">Создание задачи и основные приёмы работы<span class="badge">← подробная статья</span></b>
+            <b class="strong">Создание задачи и полный цикл её сопровождения<span class="badge">← подробная статья</span></b>
             <span class="desc">Создать первую задачу, оформить требования и передать в работу</span>
           </span></li>
           <li><span>
@@ -440,8 +525,8 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
       </article>
 
       <!-- ============================================ статья 2 -->
-      <article class="page" id="create" data-title="Создание задачи и основные приёмы работы">
-        <h1 class="page-title">Создание задачи и основные приёмы работы</h1>
+      <article class="page" id="create" data-title="Создание задачи и полный цикл её сопровождения">
+        <h1 class="page-title">Создание задачи и полный цикл её сопровождения</h1>
         <p class="meta">6 мин · Статья 2 из 4 · Нужен доступ в Я.Трекер и имя очереди</p>
         <p><b>Результат:</b> создать первую задачу, оформить требования
           и передать в работу.</p>
