@@ -36,7 +36,17 @@ a:hover { color: var(--orange-d); }
 :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 
 /* ——— раскладка ——— */
-.layout { display: grid; grid-template-columns: 15.5rem minmax(0, 1fr); align-items: start; }
+/* Раскладка ограничена по ширине и отцентрована целиком: 15,5rem меню
+   плюс 50rem колонка контента. Пустое поле делится поровну по краям,
+   а не собирается справа. */
+.layout {
+  display: grid;
+  grid-template-columns: 15.5rem minmax(0, 50rem);
+  justify-content: center;
+  align-items: start;
+  max-width: 65.5rem;
+  margin-inline: auto;
+}
 
 .side {
   position: sticky;
