@@ -54,7 +54,7 @@ a:hover { color: var(--orange-d); }
   height: 100vh;
   overflow-y: auto;
   border-right: 1px solid var(--hair);
-  padding: clamp(2.75rem, 6vw, 4rem) 1.25rem 3rem;
+  padding: clamp(4.25rem, 8vw, 5.75rem) 1.25rem 3rem;
   font-size: 0.9875rem;
   line-height: 1.6;
 }
@@ -95,25 +95,7 @@ html.js .page.is-current { display: block; }
 .nav > li { margin-bottom: 1rem; }
 .nav > li:last-child { margin-bottom: 0; }
 .nav a { display: block; }
-.nav a[aria-current="page"] {
-  position: relative;
-  margin-left: -0.85rem;
-  padding: 0.25rem 0.6rem 0.25rem 0.85rem;
-  border-radius: 8px;
-  background: var(--orange-s);
-  color: var(--orange-d);
-  font-weight: 620;
-}
-.nav a[aria-current="page"]::before {
-  content: "";
-  position: absolute;
-  left: 0.3rem;
-  top: 0.4rem;
-  bottom: 0.4rem;
-  width: 2px;
-  border-radius: 2px;
-  background: var(--orange);
-}
+.nav a[aria-current="page"] { color: var(--orange-d); font-weight: 620; }
 
 .nav__sub { margin-top: 0.5rem; }
 .nav__sub > li { margin-bottom: 0.6rem; }
@@ -272,10 +254,9 @@ p:last-child { margin-bottom: 0; }
 .step__meta { display: flex; align-items: baseline; gap: 0.4rem; }
 .step__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.7rem; }
 
-/* Сквозной сценарий выделен постоянно, а не только при наведении */
-.road__item--key > .road__num { border-color: var(--orange); background: var(--orange-s); }
-.road__item--key .step { border-color: var(--orange); background: var(--orange-s); }
-.road__item--key .step:hover { border-color: var(--orange-d); }
+/* Сквозной сценарий выделен постоянно — только рамкой, без заливки */
+.road__item--key > .road__num { border-color: var(--orange); }
+.road__item--key .step { border-color: var(--orange); }
 
 .tag {
   display: inline-block;
@@ -288,9 +269,6 @@ p:last-child { margin-bottom: 0; }
   white-space: nowrap;
 }
 .tag--accent { border-color: transparent; background: var(--orange-s); color: var(--orange-d); }
-.road__item--key .tag { border-color: #F0DCC4; }
-.road__item--key .tag--accent { border-color: transparent; background: #fff; }
-
 @media (prefers-reduced-motion: reduce) {
   .step { transition: none; }
   .step:hover { transform: none; }
