@@ -97,14 +97,26 @@ html.js .page.is-current { display: block; }
 .nav__sub > li { margin-bottom: 0.6rem; }
 .nav__sub > li:last-child { margin-bottom: 0; }
 
-.nav__sub > li > a {
+/* Строка пункта: колонка под шеврон и колонка текста. У пункта
+   с разделами шеврон — кнопка-переключатель, у остальных пустой span,
+   который только держит колонку, чтобы текст стоял на одной вертикали. */
+.nav__row {
   display: grid;
   grid-template-columns: 0.9rem 1fr;
   gap: 0.5rem;
   align-items: start;
 }
-.nav__sub > li > a .mk { position: relative; height: 1.6em; }
-.nav__sub > li > a .mk--on::before {
+.nav__row .mk {
+  position: relative;
+  height: 1.6em;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--faint);
+}
+button.mk { cursor: pointer; }
+.nav__row .mk--on::before {
   content: "";
   position: absolute;
   left: 0.05rem;
@@ -114,16 +126,28 @@ html.js .page.is-current { display: block; }
   border-right: 1.5px solid currentColor;
   border-bottom: 1.5px solid currentColor;
   transform: translateY(-60%) rotate(-45deg);
+  transition: transform 0.15s ease;
 }
-.nav__sub > li > a[aria-current="page"] .mk--on::before {
+.nav__row .mk--on[aria-expanded="true"]::before {
   transform: translateY(-70%) rotate(45deg);
 }
+@media (prefers-reduced-motion: reduce) {
+  .nav__row .mk--on::before { transition: none; }
+}
 
-.nav__sub2 { margin: 0.5rem 0 0 1.4rem; color: var(--soft); }
-.nav__sub2 li { margin-bottom: 0.4rem; }
+.nav__sub2 { counter-reset: t; margin: 0.5rem 0 0 1.4rem; color: var(--soft); }
+.nav__sub2 li {
+  counter-increment: t;
+  display: grid;
+  grid-template-columns: 1.15rem 1fr;
+  gap: 0.4rem;
+  align-items: baseline;
+  margin-bottom: 0.4rem;
+}
+.nav__sub2 li::before { content: counter(t) "."; color: var(--faint); }
 .nav__sub2 li:last-child { margin-bottom: 0; }
 html.js .nav__sub2 { display: none; }
-html.js .nav__sub > li > a[aria-current="page"] + .nav__sub2 { display: block; }
+html.js .nav__sub > li.is-open > .nav__sub2 { display: block; }
 
 /* ——— типографика листа ——— */
 .page-title {
@@ -388,20 +412,39 @@ figcaption a { text-decoration: underline; text-underline-offset: 0.2em; }
       <li>
         <a href="#home">Быстрый старт (обзор)</a>
         <ol class="nav__sub">
-          <li><a href="#intro"><span class="mk" aria-hidden="true"></span><span>Знакомство с Я.Трекером</span></a></li>
           <li>
-            <a href="#create"><span class="mk mk--on" aria-hidden="true"></span><span>Создание задачи и основные приёмы работы с ней</span></a>
-            <ol class="nav__sub2">
-              <li><a href="#create-step1">Выбор очереди и инициация создания задачи</a></li>
-              <li><a href="#create-step2">Заполнение названия и базовой структуры требования</a></li>
-              <li><a href="#create-step3">Декомпозиция работы через Чек-лист (опционально)</a></li>
-              <li><a href="#create-step4">Настройка атрибутов</a></li>
-              <li><a href="#create-step5">Коммуникация</a></li>
-              <li><a href="#create-step6">Жизненный цикл</a></li>
+            <div class="nav__row">
+              <span class="mk" aria-hidden="true"></span>
+              <a href="#intro">Знакомство с Я.Трекером</a>
+            </div>
+          </li>
+          <li>
+            <div class="nav__row">
+              <button type="button" class="mk mk--on" aria-expanded="false"
+                      aria-controls="create-steps" aria-label="Разделы статьи"></button>
+              <a href="#create">Создание задачи и основные приёмы работы с ней</a>
+            </div>
+            <ol class="nav__sub2" id="create-steps">
+              <li><a href="#create-step1">Выбор очереди</a></li>
+              <li><a href="#create-step2">Название и описание</a></li>
+              <li><a href="#create-step3">Чек-лист</a></li>
+              <li><a href="#create-step4">Атрибуты</a></li>
+              <li><a href="#create-step5">Комментарии</a></li>
+              <li><a href="#create-step6">Статусы</a></li>
             </ol>
           </li>
-          <li><a href="#search"><span class="mk" aria-hidden="true"></span><span>Поиск задач и работа с досками</span></a></li>
-          <li><a href="#extra"><span class="mk" aria-hidden="true"></span><span>Быстрые приёмы и шаблоны</span></a></li>
+          <li>
+            <div class="nav__row">
+              <span class="mk" aria-hidden="true"></span>
+              <a href="#search">Поиск задач и работа с досками</a>
+            </div>
+          </li>
+          <li>
+            <div class="nav__row">
+              <span class="mk" aria-hidden="true"></span>
+              <a href="#extra">Быстрые приёмы и шаблоны</a>
+            </div>
+          </li>
         </ol>
       </li>
     </ul>
@@ -776,6 +819,14 @@ figcaption a { text-decoration: underline; text-underline-offset: 0.2em; }
     });
   }
 
+  var branches = document.querySelectorAll(".nav__sub > li");
+
+  function setOpen(li, open) {
+    li.classList.toggle("is-open", open);
+    var btn = li.querySelector("button.mk");
+    if (btn) { btn.setAttribute("aria-expanded", open ? "true" : "false"); }
+  }
+
   function show(id, sectionId, keepScroll) {
     var target = document.getElementById(id);
     if (!target || !target.classList.contains("page")) { id = DEFAULT; }
@@ -785,6 +836,14 @@ figcaption a { text-decoration: underline; text-underline-offset: 0.2em; }
     });
 
     mark(id, sectionId);
+
+    /* Открытая статья раскрывает свои разделы; остальные ветки
+       сворачиваются. Дальше состоянием управляет кнопка-шеврон. */
+    Array.prototype.forEach.call(branches, function (li) {
+      if (!li.querySelector(".nav__sub2")) { return; }
+      var own = li.querySelector(".nav__row > a");
+      setOpen(li, !!own && own.getAttribute("href") === "#" + id);
+    });
 
     var t = document.getElementById(id).dataset.title;
     if (t) { document.title = t; }
@@ -810,6 +869,14 @@ figcaption a { text-decoration: underline; text-underline-offset: 0.2em; }
   }
 
   document.addEventListener("click", function (e) {
+    /* Шеврон только складывает и раскрывает список, не переходя по ссылке */
+    var btn = e.target.closest("button.mk");
+    if (btn) {
+      var li = btn.closest("li");
+      setOpen(li, btn.getAttribute("aria-expanded") !== "true");
+      return;
+    }
+
     var a = e.target.closest('a[href^="#"]');
     if (!a) { return; }
     var id = a.getAttribute("href").slice(1);
