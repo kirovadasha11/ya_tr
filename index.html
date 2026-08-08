@@ -91,7 +91,7 @@ html.js .page.is-current { display: block; }
 .nav > li { margin-bottom: 8px; }
 .nav > li:last-child { margin-bottom: 0; }
 .nav a { display: block; }
-.nav a[aria-current="page"] { color: var(--orange-d); font-weight: 620; }
+.nav a[aria-current] { color: var(--orange-d); font-weight: 620; }
 
 .nav__sub { margin-top: 0.5rem; }
 .nav__sub > li { margin-bottom: 0.6rem; }
@@ -764,7 +764,19 @@ figcaption a { text-decoration: underline; text-underline-offset: 0.2em; }
   var pages = document.querySelectorAll(".page");
   var links = document.querySelectorAll(".nav a");
 
-  function show(id) {
+  /* Текущая статья помечается как page, текущий раздел внутри неё —
+     как location. Шеврон реагирует только на page: он показывает,
+     что список разделов раскрыт, а не то, где именно вы находитесь. */
+  function mark(pageId, sectionId) {
+    Array.prototype.forEach.call(links, function (a) {
+      var href = a.getAttribute("href");
+      if (href === "#" + pageId) { a.setAttribute("aria-current", "page"); }
+      else if (sectionId && href === "#" + sectionId) { a.setAttribute("aria-current", "location"); }
+      else { a.removeAttribute("aria-current"); }
+    });
+  }
+
+  function show(id, sectionId, keepScroll) {
     var target = document.getElementById(id);
     if (!target || !target.classList.contains("page")) { id = DEFAULT; }
 
@@ -772,25 +784,29 @@ figcaption a { text-decoration: underline; text-underline-offset: 0.2em; }
       p.classList.toggle("is-current", p.id === id);
     });
 
-    Array.prototype.forEach.call(links, function (a) {
-      if (a.getAttribute("href") === "#" + id) { a.setAttribute("aria-current", "page"); }
-      else { a.removeAttribute("aria-current"); }
-    });
+    mark(id, sectionId);
 
     var t = document.getElementById(id).dataset.title;
     if (t) { document.title = t; }
-    window.scrollTo(0, 0);
+    if (!keepScroll) { window.scrollTo(0, 0); }
   }
 
   function go(id, smooth) {
     var el = id ? document.getElementById(id) : null;
+
     if (el && !el.classList.contains("page")) {
       var page = el.closest(".page");
-      show(page ? page.id : DEFAULT);
-      el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+      var pageId = page ? page.id : DEFAULT;
+      /* Верх страницы не трогаем: иначе прокрутка пойдёт от самого начала
+         и прогонит перед глазами весь текст. Плавно доводим только когда
+         статья уже открыта, при переходе с другой — ставим сразу. */
+      var samePage = page && page.classList.contains("is-current");
+      show(pageId, id, true);
+      el.scrollIntoView({ behavior: (smooth && samePage) ? "smooth" : "auto", block: "start" });
       return;
     }
-    show(el ? id : DEFAULT);
+
+    show(el ? id : DEFAULT, null, false);
   }
 
   document.addEventListener("click", function (e) {
