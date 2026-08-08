@@ -36,9 +36,6 @@ a:hover { color: var(--orange-d); }
 :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 
 /* ——— раскладка ——— */
-/* Меню 250px, зазор 56px, колонка контента до 800px. Верхний отступ
-   задан на самой раскладке, поэтому меню и заголовок H1 начинаются
-   на одной горизонтали. */
 .layout {
   display: grid;
   grid-template-columns: 250px minmax(0, 800px);
@@ -77,9 +74,7 @@ a:hover { color: var(--orange-d); }
   }
 }
 
-/* ——— страницы ———
-   Без скрипта видны все подряд и разделены линией.
-   Со скриптом остаётся только текущая. */
+/* ——— страницы ——— */
 .page { scroll-margin-top: 1rem; }
 html:not(.js) .page + .page {
   margin-top: 4rem;
@@ -102,20 +97,12 @@ html.js .page.is-current { display: block; }
 .nav__sub > li { margin-bottom: 0.6rem; }
 .nav__sub > li:last-child { margin-bottom: 0; }
 
-/* Шеврон: вправо у обычного пункта, вниз у выбранного.
-   Рисуется двумя границами квадрата, а не символом шрифта —
-   так форма и толщина одинаковы везде. Текст вынесен в отдельную
-   ячейку сетки, чтобы перенос строк шёл ровно под первой строкой.
-   Селекторы прямых потомков, иначе правила протекли бы в третий
-   уровень меню. */
 .nav__sub > li > a {
   display: grid;
   grid-template-columns: 0.9rem 1fr;
   gap: 0.5rem;
   align-items: start;
 }
-/* .mk без модификатора только резервирует колонку, чтобы текст
-   пунктов без подпунктов стоял на той же вертикали. */
 .nav__sub > li > a .mk { position: relative; height: 1.6em; }
 .nav__sub > li > a .mk--on::before {
   content: "";
@@ -132,9 +119,6 @@ html.js .page.is-current { display: block; }
   transform: translateY(-70%) rotate(45deg);
 }
 
-/* Третий уровень — разделы открытой статьи.
-   Без скрипта виден всегда, со скриптом только у текущего пункта.
-   Соседний комбинатор вместо :has — поддержка шире. */
 .nav__sub2 { margin: 0.5rem 0 0 1.4rem; color: var(--soft); }
 .nav__sub2 li { margin-bottom: 0.4rem; }
 .nav__sub2 li:last-child { margin-bottom: 0; }
@@ -166,11 +150,17 @@ h2 {
 }
 .page-title + h2 { margin-top: 0; padding-top: 0; border-top: 0; }
 
-/* Разделы ключевой статьи и страницы «Контекст и ТЗ» — без нумерации. */
 #create h2,
 #context h2 { display: block; }
 
 h2 { scroll-margin-top: 1.5rem; }
+
+h3 {
+  font-size: 1.2rem;
+  font-weight: 620;
+  margin: 2rem 0 1rem;
+  color: var(--ink);
+}
 
 .num { font-size: 0.85em; font-weight: 700; color: var(--orange); }
 
@@ -192,10 +182,7 @@ p:last-child { margin-bottom: 0; }
   color: var(--soft);
 }
 
-/* ——— роадмап ———
-   Кружок с номером стоит в первой колонке сетки, направляющая линия
-   рисуется псевдоэлементом каждого шага и уходит за нижний край,
-   перекрывая промежуток до следующего. У последнего шага снимается. */
+/* ——— роадмап ——— */
 .road { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
 
 .road__item {
@@ -256,7 +243,6 @@ p:last-child { margin-bottom: 0; }
 .step__meta { display: flex; align-items: baseline; gap: 0.4rem; }
 .step__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.7rem; }
 
-/* Сквозной сценарий выделен постоянно — только рамкой, без заливки */
 .road__item--key > .road__num { border-color: var(--orange); }
 .road__item--key .step { border-color: var(--orange); }
 
@@ -276,7 +262,7 @@ p:last-child { margin-bottom: 0; }
   .step:hover { transform: none; }
 }
 
-/* ——— вопрос → ответ, замечание ——— */
+/* ——— вопрос → ответ ——— */
 .qa {
   display: grid;
   grid-template-columns: 1.75rem 1fr;
@@ -289,7 +275,7 @@ p:last-child { margin-bottom: 0; }
 .qa__a { margin: 0; }
 .qa ul.plain { margin: 0; }
 
-/* ——— списки ——— */
+/* ——— списки и сноски ——— */
 ul.plain { list-style: none; margin: 0 0 1.25rem; padding: 0; }
 ul.plain li {
   display: grid;
@@ -323,6 +309,51 @@ ol.plan .desc {
 ol.plan a { display: block; }
 ol.plan a:hover b { color: var(--orange-d); }
 
+ol.num-list {
+  margin: 0 0 1.25rem 1.25rem;
+  padding: 0;
+}
+ol.num-list li {
+  margin-bottom: 0.5rem;
+}
+
+ul.checklist {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+ul.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+ul.checklist input[type="checkbox"] {
+  margin-top: 0.35rem;
+  accent-color: var(--orange);
+}
+
+blockquote.callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background: var(--orange-s);
+  border-left: 3px solid var(--orange);
+  border-radius: 0 8px 8px 0;
+}
+blockquote.callout p { margin: 0; font-size: 0.9875rem; }
+
+pre.code-block {
+  background: #f6f8fa;
+  border: 1px solid var(--card-line);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 1rem 0 1.5rem;
+}
+
 .badge {
   display: inline-block;
   vertical-align: baseline;
@@ -336,49 +367,11 @@ ol.plan a:hover b { color: var(--orange-d); }
   white-space: nowrap;
 }
 
-/* ——— таблица: только волосяные линии строк ——— */
-.tbl { overflow-x: auto; margin: 0 0 1.5rem; }
-table { border-collapse: collapse; width: 100%; font-size: 0.9875rem; line-height: 1.6; }
-th, td { text-align: left; padding: 0.6rem 1rem 0.6rem 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
-th { font-weight: 620; color: var(--soft); }
-td:last-child, th:last-child { padding-right: 0; }
-
 /* ——— иллюстрации ——— */
-figure { margin: 1rem 0 1.2rem; text-align: center; }
-figure img { display: block; width: 100%; max-width: 23rem; height: auto; margin-inline: auto; }
-figcaption { font-size: 0.8125rem; color: var(--faint); margin-top: 0.35rem; }
+figure { margin: 1.5rem 0 1.75rem; text-align: center; }
+figure img { display: block; width: 100%; max-width: 100%; height: auto; margin-inline: auto; border: 1px solid var(--card-line); border-radius: 8px; }
+figcaption { font-size: 0.8125rem; color: var(--faint); margin-top: 0.5rem; }
 figcaption a { text-decoration: underline; text-underline-offset: 0.2em; }
-
-/* ——— схематичный макет интерфейса ——— */
-.ui { border: 1px solid var(--hair); padding: 0.9rem 1rem; text-align: left; line-height: 1.6; }
-.ui__row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1rem; }
-.ui__rail { border-right: 1px solid var(--hair); padding-right: 1rem; color: var(--soft); }
-.ui__rail p { margin: 0 0 0.3rem; }
-.ui__line { border-bottom: 1px solid var(--hair); padding: 0.35rem 0; color: var(--soft); }
-.ui__line:last-child { border-bottom: 0; }
-.ui__line b { color: var(--ink); font-weight: 400; }
-.ui__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-.ui__col p { margin: 0 0 0.4rem; }
-.ui__col .h { color: var(--soft); border-bottom: 1px solid var(--hair); padding-bottom: 0.3rem; }
-.mark { color: var(--orange); font-weight: 700; }
-
-@media (max-width: 620px) {
-  .ui__row, .ui__cols { grid-template-columns: 1fr; }
-  .ui__rail { border-right: 0; border-bottom: 1px solid var(--hair); padding: 0 0 0.75rem; }
-}
-
-ol.callouts { list-style: none; margin: 0.75rem 0 0; padding: 0; counter-reset: c; text-align: left; }
-ol.callouts li {
-  counter-increment: c;
-  display: grid;
-  grid-template-columns: 1.25rem 1fr;
-  gap: 0.5rem;
-  align-items: baseline;
-  margin-bottom: 0.5rem;
-  font-size: 0.9875rem;
-  line-height: 1.6;
-}
-ol.callouts li::before { content: counter(c); color: var(--orange); font-weight: 700; }
 
 @media print {
   .layout { display: block; }
@@ -409,9 +402,14 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
           <li>
             <a href="#create"><span class="mk mk--on" aria-hidden="true"></span><span>Создание задачи и основные приёмы работы с ней<span class="badge">← подробная статья</span></span></a>
             <ol class="nav__sub2">
-              <li><a href="#create-new">Создание задачи</a></li>
-              <li><a href="#create-handover">Передача в работу</a></li>
-              <li><a href="#create-after">Работа с задачей</a></li>
+              <li><a href="#create-context">Вводный контекст кейса</a></li>
+              <li><a href="#create-step1">Шаг 1. Выбор очереди</a></li>
+              <li><a href="#create-step2">Шаг 2. Название и описание</a></li>
+              <li><a href="#create-step3">Шаг 3. Декомпозиция в Чек-лист</a></li>
+              <li><a href="#create-step4">Шаг 4. Настройка атрибутов</a></li>
+              <li><a href="#create-step5">Шаг 5. Коммуникация</a></li>
+              <li><a href="#create-step6">Шаг 6. Жизненный цикл</a></li>
+              <li><a href="#create-checklist">Итоговый чек-лист</a></li>
             </ol>
           </li>
           <li><a href="#search"><span class="mk" aria-hidden="true"></span><span>Поиск задач и работа с досками</span></a></li>
@@ -502,7 +500,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
         </ol>
       </article>
 
-      <!-- ============================================ анализ -->
+      <!-- ============================================ контекст -->
       <article class="page" id="context" data-title="Контекст и ТЗ">
         <h1 class="page-title">Контекст и ТЗ</h1>
 
@@ -530,6 +528,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
         </ul>
       </article>
 
+      <!-- ============================================ анализ -->
       <article class="page" id="analysis" data-title="Анализ задачи и проектирование решения">
         <h1 class="page-title">Анализ задачи и проектирование решения</h1>
 
@@ -550,7 +549,7 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
           бизнес-аналитика. В общих чертах круг его задач выглядит так:</p>
         <figure>
           <img src="biznes-analitik-768x768.png"
-               alt="Схема: в центре бизнес-аналитик, вокруг восемь обязанностей — найти новую проблему, провести анализ, предложить решение руководству и согласовать, написать требования продукта, дать задачу разработчикам и дизайнерам, контролировать сроки и качество, исправить косяки, предложить бизнесу готовое решение">
+               alt="Схема: в центре бизнес-аналитик, вокруг восемь обязанностей">
           <figcaption>Иллюстрация — <a href="https://kinzhal.media/business-analyst/">Кинжал</a></figcaption>
         </figure>
         <p>По результатам анализа были сформулированы два ключевых вопроса, определяющих
@@ -611,25 +610,186 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
         </ul>
       </article>
 
-      <!-- ============================================ статья 2 -->
-      <article class="page" id="create" data-title="Создание задачи и основные приёмы работы с ней">
-        <h1 class="page-title">Создание задачи и основные приёмы работы с ней</h1>
+      <!-- ============================================ статья 2 ============================================ -->
+      <article class="page" id="create" data-title="Практический кейс: Фиксация и проведение требования через Яндекс Трекер">
+        <h1 class="page-title">Практический кейс: Фиксация и проведение требования через Яндекс Трекер</h1>
         <p class="meta">6 мин · Статья 2 из 4 · Нужен доступ в Я.Трекер и имя очереди</p>
-        <p><b>Результат:</b> создать первую задачу, оформить требования
-          и передать в работу.</p>
-        <p><b>Ключевые подтемы</b></p>
+        
+        <p><b>Результат:</b> научиться правильно оформлять требования, настраивать параметры задачи, управлять декомпозицией и вести коммуникацию с командой разработки.</p>
+
+        <!-- Контекст -->
+        <h2 id="create-context">1. Вводный контекст кейса</h2>
+        
+        <h3>Бизнес-ситуация</h3>
+        <p>Команда развития цифровых продуктов работает над сервисом <b>«Личный кабинет»</b> (ключ очереди: <code>LK</code>). По результатам продуктовой аналитики выяснилось, что пользователи часто бросают оформление заказов на этапе оплаты из-за необходимости вводить данные банковской карты вручную[cite: 1].</p>
+        <p>Для решения этой проблемы бизнес поставил задачу: <b>интегрировать оплату через Систему быстрых платежей (СБП)</b>[cite: 1].</p>
+
+        <h3>Роль бизнес-аналитика в кейсе</h3>
+        <p>В реальной практике инфраструктура Яндекс Трекера (очереди, права доступа, статусные модели) уже настроена администраторами. Задачей бизнес-аналитика является не администрирование системы с нуля, а работа в существующем контексте команды[cite: 1]:</p>
         <ul class="plain">
-          <li><span>Создание задачи: выбор очереди, понятное название,
-            критерии готовности (Definition of Done)</span></li>
-          <li><span>Передача в работу: назначение исполнителя, приоритет и дедлайн</span></li>
-          <li><span>Работа с задачей: комментарии, связи с другими задачами, чеклисты</span></li>
+          <li><span>Перейти в рабочее пространство проекта (<code>LK</code>)[cite: 1].</span></li>
+          <li><span>Создать задачу с четким, структурированным описанием требования, критериями приёмки и дедлайнами[cite: 1].</span></li>
+          <li><span>Прикрепить сопроводительные материалы и чек-лист готовности[cite: 1].</span></li>
+          <li><span>Назначить ответственных исполнителей, запустить задачу в работу и вести коммуникацию в комментариях[cite: 1].</span></li>
         </ul>
 
-        <h2 id="create-new">Создание задачи</h2>
+        <!-- Пошаговая инструкция -->
+        <h2>2. Пошаговая инструкция по постановке требования</h2>
 
-        <h2 id="create-handover">Передача в работу</h2>
+        <h3 id="create-step1">Шаг 1. Выбор очереди и инициация создания задачи</h3>
+        <p>Чтобы задача попала в контекст нужной команды и получила правильный префикс (например, <code>LK-101</code>), её необходимо создавать внутри соответствующей очереди[cite: 1].</p>
+        
+        <ol class="num-list">
+          <li>На левой навигационной панели Яндекс Трекера нажмите синюю кнопку <b>«+ Создать задачу»</b>[cite: 1].</li>
+          <li>В левом верхнем углу выпадающего окна выберите очередь вашего проекта — <b><code>LK: Личный кабинет</code></b>[cite: 1].</li>
+        </ol>
 
-        <h2 id="create-after">Работа с задачей</h2>
+        <blockquote class="callout">
+          <p><b>Почему мы делаем именно так:</b> Создание задачи внутри конкретной очереди автоматически привязывает её к доске проекта, настраивает нужный набор полей и обеспечивает правильную маршрутизацию уведомлений участникам команды[cite: 1].</p>
+        </blockquote>
+
+        <figure>
+          <img src="images/01-create-task-button.png" alt="Кнопка создания задачи">
+          <figcaption>Вызов формы создания задачи из левого меню</figcaption>
+        </figure>
+
+        <figure>
+          <img src="images/02-select-queue-lk.png" alt="Выбор очереди">
+          <figcaption>Выбор очереди «Личный кабинет (LK)»</figcaption>
+        </figure>
+
+        <h3 id="create-step2">Шаг 2. Заполнение названия и базовой структуры требования</h3>
+        <p>Название задачи должно четко отражать суть доработки, а описание — давать команде разработки исчерпывающий контекст без необходимости уточняющих встреч[cite: 1].</p>
+
+        <ol class="num-list">
+          <li>В поле <b>«Название»</b> введите: <br><code>[REQUIREMENT] Добавление способа оплаты через СБП в личный кабинет</code>[cite: 1]</li>
+          <li>В центральном поле ввода описания разместите структурированный текст требования[cite: 1]:</li>
+        </ol>
+
+<pre class="code-block">Задумка
+Пользователям неудобно каждый раз вводить данные карты вручную. Оплата через СБП ускорит процесс покупки и повысит конверсию платящих пользователей.
+
+Что сделать (Критерии приёмки):
+1. В блок способов оплаты добавить новую кнопку «СБП».
+2. На десктопной версии: при выборе СБП генерируется и отображается динамический QR-код для сканирования банковским приложением.
+3. На мобильной версии: клик по кнопке перенаправляет пользователя в приложение банка-эмитента (Deeplink).
+4. После успешного проведения транзакции статус заказа в ЛК мгновенно меняется на «Оплачено».</pre>
+
+        <blockquote class="callout">
+          <p><b>Совет по оформлению:</b> Используйте визуальный редактор Трекера (панель инструментов над текстом) для форматирования списков, выделения заголовков и вставки ссылок[cite: 1].</p>
+        </blockquote>
+
+        <figure>
+          <img src="images/03-task-title-description.png" alt="Заполнение названия и описания">
+          <figcaption>Заполнение темы задачи и структурированного описания</figcaption>
+        </figure>
+
+        <h3 id="create-step3">Шаг 3. Декомпозиция работы через Чек-лист</h3>
+        <p>Чек-лист позволяет аналитику разбить верхнеуровневую задачу на подшаги, контролировать промежуточный прогресс и назначать ответственных на конкретные микрозадачи[cite: 1].</p>
+
+        <ol class="num-list">
+          <li>Под блоком текстового описания нажмите кнопку <b><code>+ Чеклист</code></b>[cite: 1].</li>
+          <li>Последовательно добавьте следующие пункты, нажимая <b>«Сохранить»</b> или клавишу <code>Enter</code> после каждого[cite: 1]:
+            <ul>
+              <li><code>1. Согласовать с UI/UX дизайн кнопки СБП</code>[cite: 1]</li>
+              <li><code>2. Подготовить спеку API для разработчиков</code>[cite: 1]</li>
+              <li><code>3. Проверить сценарий оплаты на тестовом стенде</code>[cite: 1]</li>
+            </ul>
+          </li>
+          <li>При необходимости укажите отдельного исполнителя и дедлайн для каждого пункта чек-листа непосредственно в его строке[cite: 1].</li>
+        </ol>
+
+        <p><b>Возможности управления чек-листом:</b></p>
+        <ul class="plain">
+          <li><span>Для смены порядка пунктов перетаскивайте их за значок слева[cite: 1].</span></li>
+          <li><span>Отметка флажка слева от пункта переводит его в статус выполненного[cite: 1].</span></li>
+          <li><span>Нажмите на сам пункт, чтобы отредактировать текст, изменить дедлайн или назначить исполнителя[cite: 1].</span></li>
+        </ul>
+
+        <figure>
+          <img src="images/04-add-checklist-button.png" alt="Кнопка Добавить чеклист">
+          <figcaption>Добавление чек-листа под описанием</figcaption>
+        </figure>
+
+        <figure>
+          <img src="images/05-checklist-items-deadlines.png" alt="Настройка чек-листа">
+          <figcaption>Настройка пунктов, исполнителей и дедлайнов в чек-листе</figcaption>
+        </figure>
+
+        <h3 id="create-step4">Шаг 4. Настройка атрибутов задачи (Правая панель)</h3>
+        <p>Параметры задачи на правой панели определяют приоритеты, сроки и ответственных лиц[cite: 1].</p>
+
+        <ul class="plain">
+          <li><span><b>Тип задачи:</b> По умолчанию указано <code>Задача</code> (или <code>Требование</code>)[cite: 1].</span></li>
+          <li><span><b>Приоритет:</b> Выберите <code>= Средний</code> (или <code>Высокий</code>, если фича критична для ближайшего релиза)[cite: 1].</span></li>
+          <li><span><b>Исполнитель:</b> Введите имя системного аналитика или разработчика. Если вы сами берете задачу в работу — нажмите кнопку <b><code>Назначить меня</code></b> (<code>Я</code>)[cite: 1].</span></li>
+          <li><span><b>Дедлайн:</b> Укажите целевую дату завершения анализа и передачи в разработку[cite: 1].</span></li>
+          <li><span><b>Наблюдатели:</b> Добавьте продакт-менеджера, тимлида разработки и QA-инженера, нажав <b><code>Добавить меня</code></b> или выбрав коллег из списка. Они будут получать уведомления обо всех изменениях по задаче[cite: 1].</span></li>
+          <li><span><b>Прикрепить файлы:</b> Нажмите значок 📎 под описанием, чтобы приложить прототипы экранов или OpenAPI-спецификацию[cite: 1].</span></li>
+        </ul>
+
+        <p>После заполнения всех атрибутов нажмите синюю кнопку <b>«Создать задачу»</b> внизу экрана[cite: 1].</p>
+
+        <figure>
+          <img src="images/06-sidebar-assignee-priority.png" alt="Параметры задачи">
+          <figcaption>Настройка приоритета, исполнителя, дедлайна и наблюдателей</figcaption>
+        </figure>
+
+        <h3 id="create-step5">Шаг 5. Ведение коммуникации и сопровождение в комментариях</h3>
+        <p>После создания задачи вся рабочая переписка, вопросы тестирования и согласования должны происходить внутри карточки задачи в блоке <b>«Комментарии»</b>[cite: 1]. Это создает единый информационный контур и сохраняет историю решений[cite: 1].</p>
+
+        <h4>Как оставить комментарий и призвать коллегу:</h4>
+        <ol class="num-list">
+          <li>Прокрутите страницу задачи вниз до блока <b>«Комментарии»</b>[cite: 1].</li>
+          <li>В поле ввода введите текст (например: <i>«Коллеги, подготовил спецификацию API СБП. Просьба провести ревью»</i>)[cite: 1].</li>
+          <li>Нажмите кнопку <b><code>@ Призвать</code></b> под полем ввода и выберите из списка разработчика или техлида[cite: 1]. Пользователь получит прямое уведомление и задача отобразится у него в фильтре <i>«Ждут ответа»</i>[cite: 1].</li>
+          <li>Для вложения артефактов нажмите <b><code>Прикрепить файл</code></b> (или перетащите файл прямо в окно ввода)[cite: 1].</li>
+          <li>Нажмите кнопку <b>«Отправить»</b>[cite: 1].</li>
+        </ol>
+
+        <h4>Дополнительные возможности комментариев:</h4>
+        <ul class="plain">
+          <li><span><b>Ответ с цитированием:</b> Наведите на комментарий коллеги и нажмите <b><code>Ответить</code></b>, чтобы процитировать фрагмент[cite: 1].</span></li>
+          <li><span><b>Реакции:</b> Наведите на комментарий и нажмите значок эмодзи (👍, 🚀, ✅), чтобы быстро подтвердить получение информации[cite: 1].</span></li>
+          <li><span><b>Связывание задач:</b> Если в тексте комментария написать ключ другой задачи (например, <code>PAY-42</code>), Яндекс Трекер автоматически создаст между ними межочередную связь[cite: 1].</span></li>
+        </ul>
+
+        <figure>
+          <img src="images/07-comment-input-toolbar.png" alt="Поле ввода комментария">
+          <figcaption>Блок ввода комментария с панелью инструментов</figcaption>
+        </figure>
+
+        <figure>
+          <img src="images/08-comment-reply-mention.png" alt="Призыв и ответ">
+          <figcaption>Использование функций «Призвать» и «Ответить»</figcaption>
+        </figure>
+
+        <figure>
+          <img src="images/09-comment-emoji-reactions.png" alt="Реакции эмодзи">
+          <figcaption>Выбор эмодзи-реакций к комментарию</figcaption>
+        </figure>
+
+        <h3 id="create-step6">Шаг 6. Перевод задачи по жизненному циклу (Статусная модель)</h3>
+        <p>По мере выполнения работ аналитик обновляет статус задачи на панели управления (вверху правой колонки)[cite: 1]:</p>
+
+        <ol class="num-list">
+          <li><b><code>Открыт</code></b> ➔ При создании задачи[cite: 1].</li>
+          <li><b><code>В работе</code></b> ➔ Аналитик приступил к проектированию или передал требование в спринт разработки[cite: 1].</li>
+          <li><b><code>Решен</code> / <code>Закрыт</code></b> ➔ Требование полностью реализовано, протестировано на стенде и задеплоено в пром[cite: 1].</li>
+        </ol>
+
+        <!-- Чек-лист контроля -->
+        <h2 id="create-checklist">3. Итоговый чек-лист бизнес-аналитика при работе с задачей</h2>
+        <p>Воспользуйтесь этой памяткой перед передачей требования в разработку:</p>
+
+        <ul class="checklist">
+          <li><input type="checkbox" checked disabled> <span><b>Очередь выбрана верно:</b> Задача находится в продуктовой очереди (<code>LK</code>), а не в личной или административной[cite: 1].</span></li>
+          <li><input type="checkbox" checked disabled> <span><b>Заголовок информативен:</b> Указан тип и ключевая суть (<code>[REQUIREMENT] Добавление способа оплаты через СБП...</code>)[cite: 1].</span></li>
+          <li><input type="checkbox" checked disabled> <span><b>Описание структурировано:</b> Присутствует Контекст («Задумка») и проверяемые Критерии приёмки (Acceptance Criteria)[cite: 1].</span></li>
+          <li><input type="checkbox" checked disabled> <span><b>Чек-лист заполнен:</b> Выделены конкретные подзадачи для контроля прогресса[cite: 1].</span></li>
+          <li><input type="checkbox" checked disabled> <span><b>Участники назначены:</b> Указан Исполнитель, заполнен список Наблюдателей и выставлен реальный Дедлайн[cite: 1].</span></li>
+          <li><input type="checkbox" checked disabled> <span><b>Призваны ответственные:</b> В комментариях через <code>@</code> упомянуты разработчики и QA-инженеры[cite: 1].</span></li>
+        </ul>
       </article>
 
       <!-- ============================================ статья 3 -->
@@ -690,9 +850,6 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
     window.scrollTo(0, 0);
   }
 
-  /* Ссылка ведёт либо на страницу, либо на раздел внутри неё.
-     Во втором случае сначала открываем нужную страницу, потом
-     прокручиваем к разделу. */
   function go(id, smooth) {
     var el = id ? document.getElementById(id) : null;
     if (el && !el.classList.contains("page")) {
