@@ -88,18 +88,10 @@ html.js .page { display: none; }
 html.js .page.is-current { display: block; }
 
 /* ——— меню ——— */
-.nav__group {
-  margin: 0 0 0.7rem;
-  font-size: 0.75rem;
-  font-weight: 620;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--faint);
-}
-.nav__sep { border: 0; border-top: 1px solid var(--card-line); margin: 1.5rem 0; }
+.nav__sep { border: 0; border-top: 1px solid var(--card-line); margin: 1rem 0; }
 
 .nav, .nav__sub, .nav__sub2 { list-style: none; margin: 0; padding: 0; }
-.nav > li { margin-bottom: 1rem; }
+.nav > li { margin-bottom: 8px; }
 .nav > li:last-child { margin-bottom: 0; }
 .nav a { display: block; }
 .nav a[aria-current="page"] { color: var(--orange-d); font-weight: 620; }
@@ -400,7 +392,6 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
 <div class="layout">
 
   <nav class="side" aria-label="Разделы тестового задания">
-    <p class="nav__group">О кейсе</p>
     <ul class="nav">
       <li><a href="#context">Контекст и ТЗ</a></li>
       <li><a href="#analysis">Анализ и проектирование</a></li>
@@ -408,7 +399,6 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
 
     <hr class="nav__sep">
 
-    <p class="nav__group">Стартовый раздел</p>
     <ul class="nav">
       <li>
         <a href="#home">Быстрый старт (обзор)</a>
@@ -526,9 +516,9 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
 
         <h2>Требования заказчика</h2>
         <ul class="plain">
-          <li><span><b>Часть 1. Архитектура раздела.</b> Сформировать
-            иерархическую структуру статей. Исключить избыточность, зафиксировать цели,
-            тайминг и подтемы для каждой статьи.</span></li>
+          <li><span><b>Часть 1. Структура раздела.</b> Сформировать
+            иерархическую структуру статей. Исключить избыточность, зафиксировать цели
+            и подтемы для каждой статьи.</span></li>
           <li><span><b>Часть 2. Ключевая инструкция.</b> Написать полностью
             готовую к передаче пользователям статью «Создание задачи и основные приёмы
             работы с ней».</span></li>
