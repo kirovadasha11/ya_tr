@@ -177,6 +177,23 @@ h2 {
 #create h2,
 #context h2 { display: block; }
 
+/* Шесть шагов ключевой статьи нумеруются счётчиком: номер в отдельной
+   колонке, чтобы вторая строка заголовка шла под первой, а не под цифрой. */
+#create { counter-reset: step; }
+#create h3 {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+#create h3::before {
+  content: counter(step);
+  font-size: 0.85em;
+  font-weight: 700;
+  color: var(--orange);
+}
+
 h2 { scroll-margin-top: 1.5rem; }
 
 h3 {
@@ -362,28 +379,13 @@ pre.code-block {
   margin: 1rem 0 1.5rem;
 }
 
-details.more-info {
-  margin: 1.5rem 0;
-  padding: 0.8rem 1rem;
-  border: 1px solid var(--card-line);
-  border-radius: 8px;
-  background-color: #fafafa;
-}
-details.more-info summary {
-  font-weight: 620;
-  color: var(--orange-d);
-  cursor: pointer;
-}
-details.more-info summary:hover {
-  text-decoration: underline;
-}
-details.more-info .more-content {
-  margin-top: 0.8rem;
-}
-
 /* ——— иллюстрации ——— */
 figure { margin: 1.5rem 0 1.75rem; text-align: center; }
-figure img { display: block; width: 100%; max-width: 100%; height: auto; margin-inline: auto; border-radius: 8px; }
+/* Ширина не форсируется: каждый кадр показывается в своём натуральном
+   размере и лишь ограничивается колонкой. Иначе узкие снимки — например
+   правая панель задачи — раздувались до 800px, и текст внутри них
+   оказывался крупнее, чем на широких кадрах. */
+figure img { display: block; max-width: 100%; height: auto; margin-inline: auto; border-radius: 8px; }
 figcaption { font-size: 0.8125rem; color: var(--faint); margin-top: 0.5rem; }
 figcaption a { text-decoration: underline; text-underline-offset: 0.2em; }
 
@@ -671,37 +673,20 @@ figcaption a { text-decoration: underline; text-underline-offset: 0.2em; }
               <figcaption>Добавление чек-листа под описанием</figcaption>
             </figure>
           </li>
-          <li>Последовательно добавьте следующие пункты, нажимая <b>«Сохранить»</b> или клавишу <code>Enter</code> после каждого:
-            <ul>
-              <li><code>1. Согласовать с UI/UX дизайн кнопки СБП</code></li>
-              <li><code>2. Подготовить спеку API для разработчиков</code></li>
-              <li><code>3. Проверить сценарий оплаты на тестовом стенде</code></li>
-            </ul>
-          </li>
+          <li>Последовательно добавьте пункты, нажимая <b>«Сохранить»</b> или клавишу <code>Enter</code> после каждого.</li>
           <li>При необходимости укажите отдельного исполнителя и дедлайн для каждого пункта чек-листа непосредственно в его строке.
             <figure>
               <img src="images/05-checklist-items-deadlines.png" alt="Настройка чек-листа">
               <figcaption>Настройка пунктов, исполнителей и дедлайнов в чек-листе</figcaption>
             </figure>
           </li>
-          <li>При необходимости удалите ненужные пункты, наведя на пункт и нажав на значок корзины справа.
+          <li>Чтобы удалить лишний пункт, наведите на него и нажмите значок корзины справа.
             <figure>
               <img src="images/06-checklist-delete.png" alt="Удаление пункта чек-листа">
               <figcaption>Удаление пункта чек-листа</figcaption>
             </figure>
           </li>
         </ol>
-
-        <details class="more-info">
-          <summary>Возможности управления чек-листом (нажмите, чтобы узнать больше)</summary>
-          <div class="more-content">
-            <ul class="plain">
-              <li><span>Для смены порядка пунктов перетаскивайте их за значок слева.</span></li>
-              <li><span>Отметка флажка слева от пункта переводит его в статус выполненного.</span></li>
-              <li><span>Нажмите на сам пункт, чтобы отредактировать текст, изменить дедлайн или назначить исполнителя.</span></li>
-            </ul>
-          </div>
-        </details>
 
         <!-- Настройка атрибутов -->
         <h3 id="create-step4">Настройка атрибутов задачи (Правая панель)</h3>
@@ -732,21 +717,18 @@ figcaption a { text-decoration: underline; text-underline-offset: 0.2em; }
           <li>Прокрутите страницу задачи вниз до блока <b>«Комментарии»</b>.</li>
           <li>В поле ввода введите текст (например: <i>«Коллеги, подготовил спецификацию API СБП. Просьба провести ревью»</i>).</li>
           <li>Нажмите кнопку <b><code>@ Призвать</code></b> под полем ввода и выберите из списка разработчика или техлида. Пользователь получит прямое уведомление и задача отобразится у него в фильтре <i>«Ждут ответа»</i>.</li>
-          <li>Для вложения артефактов нажмите <b><code>Прикрепить файл</code></b> (или перетащите файл прямо в окно ввода).</li>
+          <li>Для вложения артефактов нажмите <b><code>Прикрепить файл</code></b> (или перетащите файл прямо в окно ввода).
+            <figure>
+              <img src="images/09-comment-reply-mention.png" alt="Призыв и ответ">
+              <figcaption>Использование функций «Призвать» и «Ответить»</figcaption>
+            </figure>
+          </li>
           <li>Нажмите кнопку <b>«Отправить»</b>.</li>
         </ol>
 
-        <h4>Дополнительные возможности комментариев:</h4>
         <ul class="plain">
-          <li><span><b>Ответ с цитированием:</b> Наведите на комментарий коллеги и нажмите <b><code>Ответить</code></b>, чтобы процитировать фрагмент.</span></li>
           <li><span><b>Реакции:</b> Наведите на комментарий и нажмите значок эмодзи (👍, 🚀, ✅), чтобы быстро подтвердить получение информации.</span></li>
-          <li><span><b>Связывание задач:</b> Если в тексте комментария написать ключ другой задачи (например, <code>PAY-42</code>), Яндекс Трекер автоматически создаст между ними межочередную связь.</span></li>
         </ul>
-
-        <figure>
-          <img src="images/09-comment-reply-mention.png" alt="Призыв и ответ">
-          <figcaption>Использование функций «Призвать» и «Ответить»</figcaption>
-        </figure>
 
         <figure>
           <img src="images/10-comment-emoji-reactions.png" alt="Реакции эмодзи">
