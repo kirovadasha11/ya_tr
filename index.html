@@ -36,45 +36,42 @@ a:hover { color: var(--orange-d); }
 :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 
 /* ——— раскладка ——— */
-/* Раскладка ограничена по ширине и отцентрована целиком: 15,5rem меню
-   плюс 50rem колонка контента. Пустое поле делится поровну по краям,
-   а не собирается справа. */
+/* Меню 250px, зазор 56px, колонка контента до 800px. Верхний отступ
+   задан на самой раскладке, поэтому меню и заголовок H1 начинаются
+   на одной горизонтали. */
 .layout {
   display: grid;
-  grid-template-columns: 15.5rem minmax(0, 50rem);
+  grid-template-columns: 250px minmax(0, 800px);
+  gap: 56px;
   justify-content: center;
   align-items: start;
-  max-width: 65.5rem;
+  max-width: 1154px;
   margin-inline: auto;
+  padding: 40px 24px 0;
 }
 
 .side {
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: 32px;
+  align-self: start;
+  max-height: calc(100vh - 64px);
   overflow-y: auto;
-  border-right: 1px solid var(--hair);
-  padding: clamp(4.25rem, 8vw, 5.75rem) 1.25rem 3rem;
+  padding-bottom: 2rem;
   font-size: 0.9875rem;
   line-height: 1.6;
 }
 
 .main { min-width: 0; }
 
-.sheet {
-  width: 100%;
-  max-width: 800px;
-  padding: clamp(2.75rem, 6vw, 4rem) clamp(1.25rem, 3.5vw, 2.75rem) 4.5rem;
-}
+.sheet { padding-bottom: 4.5rem; }
 
 @media (max-width: 900px) {
-  .layout { grid-template-columns: minmax(0, 1fr); }
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding: 28px 20px 0; }
   .side {
     position: static;
-    height: auto;
-    border-right: 0;
+    max-height: none;
+    padding-bottom: 2rem;
     border-bottom: 1px solid var(--hair);
-    padding: 2rem 1.25rem;
   }
 }
 
@@ -91,6 +88,16 @@ html.js .page { display: none; }
 html.js .page.is-current { display: block; }
 
 /* ——— меню ——— */
+.nav__group {
+  margin: 0 0 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 620;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.nav__sep { border: 0; border-top: 1px solid var(--card-line); margin: 1.5rem 0; }
+
 .nav, .nav__sub, .nav__sub2 { list-style: none; margin: 0; padding: 0; }
 .nav > li { margin-bottom: 1rem; }
 .nav > li:last-child { margin-bottom: 0; }
@@ -392,10 +399,18 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
 <div class="layout">
 
   <nav class="side" aria-label="Разделы тестового задания">
+    <p class="nav__group">О кейсе</p>
     <ul class="nav">
-      <li><a href="#analysis">Анализ задачи и проектирование решения</a></li>
+      <li><a href="#context">Контекст и ТЗ</a></li>
+      <li><a href="#analysis">Анализ и проектирование</a></li>
+    </ul>
+
+    <hr class="nav__sep">
+
+    <p class="nav__group">Стартовый раздел</p>
+    <ul class="nav">
       <li>
-        <a href="#home">Быстрый старт в Я.Трекере для бизнес-аналитика</a>
+        <a href="#home">Быстрый старт (обзор)</a>
         <ol class="nav__sub">
           <li><a href="#intro"><span class="mk" aria-hidden="true"></span><span>Знакомство с Я.Трекером</span></a></li>
           <li>
@@ -495,6 +510,33 @@ ol.callouts li::before { content: counter(c); color: var(--orange); font-weight:
       </article>
 
       <!-- ============================================ анализ -->
+      <article class="page" id="context" data-title="Контекст и ТЗ">
+        <h1 class="page-title">Контекст и ТЗ</h1>
+
+        <h2><span class="num">1</span><span>Задание</span></h2>
+        <p>Разработать стартовую документацию Я.Трекера под ролевую модель
+          «Бизнес-аналитик».</p>
+
+        <h2><span class="num">2</span><span>Контекст</span></h2>
+        <p>Официальная справка Яндекса описывает функциональность системы «в ширину» —
+          от настроек до API. Пользователь этой документации — опытный бизнес-аналитик,
+          который впервые сталкивается с Я.Трекером. Для быстрого старта ему нужен
+          минимально необходимый набор знаний для решения рабочих задач.</p>
+
+        <h2><span class="num">3</span><span>Требования заказчика</span></h2>
+        <ul class="plain">
+          <li><span><b class="term">Часть 1. Архитектура раздела.</b> Сформировать
+            иерархическую структуру статей. Исключить избыточность, зафиксировать цели,
+            тайминг и подтемы для каждой статьи.</span></li>
+          <li><span><b class="term">Часть 2. Ключевая инструкция.</b> Написать полностью
+            готовую к передаче пользователям статью «Создание задачи и основные приёмы
+            работы с ней».</span></li>
+          <li><span><b class="term">Ограничения.</b> Деловой стиль без фамильярности,
+            полная оригинальность без пересказа справки Яндекса, обязательные скриншоты
+            с автономными текстовыми описаниями.</span></li>
+        </ul>
+      </article>
+
       <article class="page" id="analysis" data-title="Анализ задачи и проектирование решения">
         <h1 class="page-title">Анализ задачи и проектирование решения</h1>
 
